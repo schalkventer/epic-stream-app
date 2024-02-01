@@ -1,9 +1,33 @@
-import { Routes, Route } from "react-router-dom";
+import url from "query-string";
+import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import { Component as Production } from "./components/environments/Production";
-import { Component as AppShell } from "./components/presentation/AppShell";
 import { Component as BrowseShows } from "./components/containers/BrowseShows";
-// import { Component as SingleShow } from "./components/containers/SingleShow";
+import { Component as SingleShow } from "./components/containers/SingleShow";
 import { Component as FeaturedShows } from "./components/containers/FeaturedShows";
+
+import { Component as AppShell } from "./components/presentation/AppShell";
+
+/**
+ *
+ */
+const SingleShowWrap = () => {
+  const { id } = useParams();
+  return <SingleShow id={id} />;
+};
+
+/**
+ *
+ */
+const BrowseShowsWrap = () => {
+  const { search } = useLocation();
+  const response = url.parse(search);
+
+  const entries = Object.entries(response).filter(([key]) =>
+    ["search", "genre", "sorting"].includes(key),
+  );
+
+  return <BrowseShows query={Object.fromEntries(entries)} />;
+};
 
 /**
  * Top-most component responsible for managing all logic that sits above the
@@ -16,7 +40,8 @@ export const App = () => (
     <AppShell>
       <Routes>
         <Route path="/" element={<FeaturedShows />} />
-        <Route path="/browse" element={<BrowseShows />} />
+        <Route path="/browse" element={<BrowseShowsWrap />} />
+        <Route path="/show/:id" element={<SingleShowWrap />} />
       </Routes>
     </AppShell>
   </Production>
