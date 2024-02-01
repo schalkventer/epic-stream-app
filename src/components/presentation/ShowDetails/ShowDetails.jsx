@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow: hidden;
   border-radius: 6px;
-  height: 40rem;
+  height: 28rem;
   background-image: url(${(props) => props.image});
   background-position: 100% 100%;
   background-size: 70%;
