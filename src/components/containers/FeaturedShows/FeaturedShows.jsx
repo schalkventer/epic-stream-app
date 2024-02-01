@@ -201,6 +201,7 @@ export const Component = () => {
                   image={image}
                   title={title}
                   updated={updated}
+                  action={`/show/${id}`}
                 />
               </Item>
             ))}
@@ -222,6 +223,7 @@ export const Component = () => {
                   image={image}
                   title={title}
                   updated={updated}
+                  action={`/show/${id}`}
                 />
               </Item>
             ))}
@@ -242,6 +244,7 @@ export const Component = () => {
                   image={image}
                   title={title}
                   updated={updated}
+                  action={`/show/${id}`}
                 />
               </Item>
             ))}

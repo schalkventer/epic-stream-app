@@ -8,12 +8,13 @@ import services from "../../../services";
  *
  */
 export const Component = (props) => {
-  const { children, variant } = props;
+  const { children, variant, url } = props;
+  const initialEntries = url && [url];
 
   if (variant === "shell") {
     return (
-      <MemoryRouter>
-        <services.context.Provider value={services.mocking}>
+      <MemoryRouter initialEntries={initialEntries}>
+        <services.context.Provider value={services.mocking()}>
           <Base>
             <AppShell>{children}</AppShell>
           </Base>
@@ -23,8 +24,8 @@ export const Component = (props) => {
   }
 
   return (
-    <MemoryRouter>
-      <services.context.Provider value={services.mocking}>
+    <MemoryRouter initialEntries={initialEntries}>
+      <services.context.Provider value={services.mocking()}>
         <Base>{children}</Base>
       </services.context.Provider>
     </MemoryRouter>

@@ -9,7 +9,7 @@ export const item = z.object({
   title: z.string().min(1),
   episode: z.number().min(1),
   season: z.number().min(1),
-  date: z.number().min(0),
+  updated: z.date(),
   image: z.string().url(),
   file: z.string().url(),
   progress: z.number().min(0).max(100),

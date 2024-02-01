@@ -5,23 +5,23 @@ import data from "../../../data";
  *
  */
 export const useData = () => {
-  const { list } = data.hooks.useShows({ limit: 6, sorting: "Random" });
+  const { list } = data.hooks.useShowsList({ limit: 6, sorting: "Random" });
   const [status, setStatus] = useState("LOADING");
   const [step, setStep] = useState(0);
 
-  const nature = data.hooks.useShows({
+  const nature = data.hooks.useShowsList({
     limit: 6,
     genre: "Nature",
     sorting: "Random",
   });
 
-  const action = data.hooks.useShows({
+  const action = data.hooks.useShowsList({
     limit: 6,
     genre: "Action",
     sorting: "Random",
   });
 
-  const comedy = data.hooks.useShows({
+  const comedy = data.hooks.useShowsList({
     limit: 6,
     genre: "Comedy",
     sorting: "Random",

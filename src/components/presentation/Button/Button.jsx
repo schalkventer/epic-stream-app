@@ -31,7 +31,13 @@ export const Component = (props) => {
 
   if (typeof action === "string") {
     return (
-      <Wrapper importance={importance} icon={icon} as={Link} to={action}>
+      <Wrapper
+        importance={importance}
+        icon={icon}
+        as={Link}
+        to={action}
+        disableRipple
+      >
         {icon || label}
       </Wrapper>
     );

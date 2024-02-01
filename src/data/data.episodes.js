@@ -24,17 +24,18 @@ const useEndpoint = () => {
 };
 
 /**
- *
+ * @param {Object} initial
+ * @param {season} initial.show
+ * @param {number} initial.season
  */
 export const useEpisodes = (initial) => {
   const endpoint = useEndpoint();
   const items = useStore(store, (state) => state.episodes);
   const [query, setQuery] = useState(validate(initial, schema.episodes.query));
-  const list = helpers.episodes.applyQuery({ items, query });
 
   useEffect(() => {
     const callback = async () => {
-      if (list.length < 1) {
+      if (items.length < 1) {
         const { show } = query;
         const response = await endpoint.get(show);
         store.setState((state) => ({ ...state, episodes: response }));
@@ -42,7 +43,7 @@ export const useEpisodes = (initial) => {
     };
 
     callback();
-  }, [list, endpoint, query]);
+  }, [items, endpoint, query]);
 
   /**
    * @param {object} newQuery
@@ -53,6 +54,7 @@ export const useEpisodes = (initial) => {
     );
   };
 
+  const list = helpers.episodes.applyQuery({ items, query });
   if (list.length === 0) return { list: [], query, changeQuery };
   return { list, query, changeQuery };
 };

@@ -12,6 +12,8 @@ export const responseToItems = (response) => {
     singleSeason.episodes.map((singleEpisode) => ({
       ...singleEpisode,
       updated: new Date(singleEpisode.date.toString()),
+      season: singleSeason.season,
+      progress: 0,
       show: id,
     })),
   );

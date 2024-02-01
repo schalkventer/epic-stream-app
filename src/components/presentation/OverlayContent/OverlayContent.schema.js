@@ -1,7 +1,7 @@
 import p from "prop-types";
 
 const button = p.shape({
-  children: p.string.isRequired,
+  label: p.string.isRequired,
   action: p.func.isRequired,
 });
 

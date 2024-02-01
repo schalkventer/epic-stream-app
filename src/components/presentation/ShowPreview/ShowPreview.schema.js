@@ -5,6 +5,7 @@ const props = {
   image: p.string,
   genres: p.arrayOf(p.string),
   updated: p.instanceOf(Date),
+  action: p.oneOfType([p.func, p.string]),
 };
 
 export default {

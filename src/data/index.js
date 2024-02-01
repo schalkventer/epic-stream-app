@@ -1,10 +1,11 @@
-import { useShows } from "./data.shows";
+import { useShowsList, useSingleShow } from "./data.shows";
 import { useEpisodes } from "./data.episodes";
 import schema from "./schema";
 
 export default {
   hooks: {
-    useShows,
+    useShowsList,
+    useSingleShow,
     useEpisodes,
   },
   schema,

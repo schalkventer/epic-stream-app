@@ -1,6 +1,6 @@
-import { Component } from "./AppShell";
+import { Component, useOpen } from "./AppShell";
 import { PageFilters } from "./AppShell.PageFilters";
 import schema from "./AppShell.schema";
 
-export { Component, PageFilters, schema };
-export default { Component, PageFilters, schema };
+export { Component, PageFilters, schema, useOpen };
+export default { Component, PageFilters, schema, useOpen };

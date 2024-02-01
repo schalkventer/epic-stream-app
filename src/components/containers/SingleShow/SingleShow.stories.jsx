@@ -10,7 +10,7 @@ export default {
 };
 
 export const Basic = () => (
-  <Testing>
-    <Component />
+  <Testing variant="shell">
+    <Component id="bfe26e23-13d0-4ed6-8701-3b1a160a6623" />
   </Testing>
 );

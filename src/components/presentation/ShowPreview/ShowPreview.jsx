@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
 import { ButtonBase, Skeleton } from "@mui/material";
 import { format as formatDate } from "date-fns";
 import styled from "@emotion/styled";
@@ -71,10 +72,14 @@ const ImageWrap = styled.div`
 `;
 
 export const Component = (props) => {
-  const { title, genres, image, updated, seasons } = props;
+  const { title, genres, image, updated, seasons, action } = props;
 
   return (
-    <Wrapper>
+    <Wrapper
+      as={typeof action === "string" ? Link : ButtonBase}
+      to={typeof action === "string" ? action : undefined}
+      disabled={!action}
+    >
       <ImageWrap>
         <Image src={image} alt="" loading="lazy" />
       </ImageWrap>

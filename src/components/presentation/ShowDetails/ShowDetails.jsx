@@ -94,6 +94,11 @@ const Side = styled.div`
   height: 100%;
 `;
 
+const ChildWrap = styled.div`
+  width: 100%;
+  max-width: 20rem;
+`;
+
 export const Component = (props) => {
   const { image, title, genres, updated, description, children, seasons } =
     props;
@@ -140,13 +145,13 @@ export const Component = (props) => {
             </Spacer>
 
             <Paragraph>
-              <TextElement.Component size="s">
+              <TextElement.Component size="s" lines={5}>
                 {description}
               </TextElement.Component>
             </Paragraph>
           </div>
 
-          {children}
+          {children && <ChildWrap>{children}</ChildWrap>}
         </Side>
       </Row>
     </Wrapper>

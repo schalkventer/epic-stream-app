@@ -25,9 +25,29 @@ export const useEndpoint = () => {
 };
 
 /**
- *
+ * @param {string} id
  */
-export const useShows = (initial = {}) => {
+export const useSingleShow = (id) => {
+  const endpoint = useEndpoint();
+  if (!id) throw new Error("id is required");
+  const items = useStore(store, (state) => state.shows);
+
+  useMount(async () => {
+    if (items !== undefined) return;
+    const response = await endpoint.get();
+    store.setState((state) => ({ ...state, shows: response }));
+  });
+
+  if (items === undefined) return null;
+  const result = items.find((item) => item.id === id);
+  if (!result) throw new Error(`No show found with id ${id}`);
+  return validate(result, schema.shows.item);
+};
+
+/**
+ * @param {Object} initial
+ */
+export const useShowsList = (initial = {}) => {
   const endpoint = useEndpoint();
   const items = useStore(store, (state) => state.shows);
   const [list, setList] = useState(null);

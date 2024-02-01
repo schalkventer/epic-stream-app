@@ -1,3 +1,4 @@
+import { createGlobalState } from "react-use";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, createRef } from "react";
 import styled from "@emotion/styled";
@@ -161,29 +162,18 @@ export const Presentation = (props) => {
   );
 };
 
+export const useOpen = createGlobalState(false);
+
 export const Component = (props) => {
   const { children } = props;
   const navigate = useNavigate();
-  const { pathname, search: params } = useLocation();
-  const [open, setOpen] = useState(true);
+  const { pathname } = useLocation();
+  const [open, setOpen] = useOpen();
 
   const { top } = useSpring({
-    from: { top: open ? "100%" : "-250%" },
+    from: { top: "100%" },
     to: { top: open ? "100%" : "-250%" },
   });
-
-  useEffect(() => {
-    const response = new URLSearchParams(params);
-
-    const query = {
-      genre: response.get("genre"),
-      sorting: response.get("sorting"),
-      search: response.get("search"),
-    };
-
-    const hasQuery = Object.values(query).some(Boolean);
-    setOpen(hasQuery);
-  }, [params]);
 
   useEffect(() => {
     const handler = (event) => {
