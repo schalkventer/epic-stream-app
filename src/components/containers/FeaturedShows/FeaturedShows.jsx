@@ -103,6 +103,7 @@ export const Component = () => {
       >
         {featured && (
           <ShowDetails.Component
+            key={featured.id}
             seasons={featured.seasons}
             description={featured.description}
             genres={featured.genres}
