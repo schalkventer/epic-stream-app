@@ -86,7 +86,7 @@ export const Component = (props) => {
     <Wrapper image={image}>
       <Row>
         <div>
-          <Image src={image} />
+          <Image src={image} loading="eager" />
         </div>
 
         <Side>
