@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
 import schema from "./BrowseShows.schema";
-import { PageFilters } from "../../presentation/AppShell";
+import { PageFilters, useOpen } from "../../presentation/AppShell";
 import data from "../../../data";
 import { Component as PageSection } from "../../presentation/PageSection";
 import ShowPreview from "../../presentation/ShowPreview";
+import { useEffect } from "react";
 
 const Grid = styled.div`
   display: grid;
@@ -55,9 +55,15 @@ const Loading = () => (
  */
 export const Component = (props) => {
   const { query: initial } = props;
-  const navigate = useNavigate();
+  const [open, setOpen] = useOpen();
   const { list, query, changeQuery } = data.hooks.useShowsList(initial);
   const { genre, search, sorting } = query;
+
+  useEffect(() => {
+    if (!open && Object.keys(initial).length > 0) setOpen(true);
+    if (open && Object.keys(initial).length < 1) setOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initial]);
 
   return (
     <>
