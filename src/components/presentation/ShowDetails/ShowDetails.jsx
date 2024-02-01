@@ -25,12 +25,16 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow: hidden;
   border-radius: 6px;
-  height: 28rem;
+  height: 43rem;
   background-image: url(${(props) => props.image});
   background-position: 100% 100%;
   background-size: 70%;
   background-repeat: no-repeat;
   overflow: hidden;
+
+  @media (min-width: 40rem) {
+    height: 28rem;
+  }
 `;
 
 const Title = styled.div`
