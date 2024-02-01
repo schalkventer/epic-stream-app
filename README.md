@@ -11,17 +11,17 @@
 
 - [x]  All show data loaded via a `fetch` call from the `https://podcast-api.netlify.app/shows`
 - [x]  All data is loaded a `fetch` and no endpoint-specific data is hardcoded
-- [ ] When viewing a specific show data is loaded via `fetch` from individual show endpoint
+- [x] When viewing a specific show data is loaded via `fetch` from individual show endpoint
 - [x]  There is a loading state while initial data is being loaded
-- [ ] There is a loading state while new data is being loaded
+- [x] There is a loading state while new data is being loaded
 
 ---
 
 - [x]  User sees the name of all available shows on the platform
-- [ ] User sees shows broken down into seasons, sorted by number
+- [x] User sees shows broken down into seasons, sorted by number
 - [ ] User has a way to listen to any episode in a season for a show
-- [ ] User is able to see a view where only episodes for a specific selected season is shown
-- [ ] User is able to toggle between different seasons for the same show
+- [x] User is able to see a view where only episodes for a specific selected season is shown
+- [x] User is able to toggle between different seasons for the same show
 
 ---
 
@@ -34,7 +34,7 @@
 
 - [ ] User sees a preview image of seasons for specific show
 - [x] User sees the amount of episodes as number for a season
-- [ ] User are able to go back to a show view from an season-specific view
+- [x] User are able to go back to a show view from an season-specific view
 
 ---
 
@@ -66,7 +66,7 @@
 - [ ] Audio player is always visible so that user can listen to episodes while I browse
 - [ ] User receives a notification that confirms they want to close the page when audio is playing
 - [ ] App remembers what shows and episode user listened to last when returning to the platform
-- [ ] Automatically filters shows by a genre if the genre label is clicked on
+- [x] Automatically filters shows by a genre if the genre label is clicked on
 - [ ] App remembers and shows what episodes user listened all the way through
 - [ ] App remembers the exact timestamp where user stoped listening within a 10 seconds accuracy of closing
 - [ ] App remembers and shows the exact timestamp location of where I left off any episode
