@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { useMount } from "react-use";
+import { useNavigate } from "react-router-dom";
+import schema from "./BrowseShows.schema";
 import { PageFilters } from "../../presentation/AppShell";
 import data from "../../../data";
 import { Component as PageSection } from "../../presentation/PageSection";
@@ -53,31 +53,15 @@ const Loading = () => (
 /**
  *
  */
-export const Component = () => {
-  const { search: params } = useLocation();
-  const { list, query, changeQuery } = data.hooks.useShows();
+export const Component = (props) => {
+  const { query: initial } = props;
+  const navigate = useNavigate();
+  const { list, query, changeQuery } = data.hooks.useShowsList(initial);
   const { genre, search, sorting } = query;
-
-  useMount(() => {
-    const response = new URLSearchParams(params);
-
-    const inner = Object.fromEntries(
-      [
-        ["genre", response.get("genre")],
-        ["sorting", response.get("sorting")],
-        ["search", response.get("search")],
-      ].filter(([, value]) => value !== null),
-    );
-
-    const hasQuery = Object.values(query).some(Boolean);
-    if (!hasQuery) return;
-    changeQuery(inner);
-  }, [params]);
 
   return (
     <>
       <PageFilters
-        start="open"
         filters={[
           {
             label: "Search",
@@ -114,6 +98,7 @@ export const Component = () => {
                 image={image}
                 title={title}
                 updated={updated}
+                action={`/show/${id}`}
               />
             ))}
         </Grid>
@@ -121,3 +106,5 @@ export const Component = () => {
     </>
   );
 };
+
+Component.propTypes = schema.props;

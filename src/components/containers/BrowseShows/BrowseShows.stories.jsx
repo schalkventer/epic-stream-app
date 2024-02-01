@@ -10,7 +10,7 @@ export default {
 };
 
 export const Basic = () => (
-  <Testing>
+  <Testing variant="shell">
     <Component />
   </Testing>
 );
