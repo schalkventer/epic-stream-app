@@ -1,4 +1,4 @@
-import styled from "@emotion/react";
+import styled from "@emotion/styled";
 import { BrowserRouter } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import schema from "./Production.schema";
