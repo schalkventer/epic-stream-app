@@ -1,12 +1,7 @@
 /**
  *
  */
-export const BASE_API_URL = "https://epic-stream-api.netlify.app";
-
-/**
- *
- */
-export const MAIN_CONTENT_WIDTH = "130rem";
+export const MAIN_CONTENT_WIDTH = "100rem";
 
 /**
  *
@@ -29,36 +24,5 @@ export const COLORS = {
 
 export default {
   COLORS,
-  BASE_API_URL,
   MAIN_CONTENT_WIDTH,
-};
-
-/**
- *
- */
-export const GENRE_LABELS = {
-  1: "Crime",
-  2: "Drama",
-  3: "Thriller",
-  4: "Documentary",
-  5: "Nature",
-  6: "War",
-  7: "History",
-  8: "Animation",
-  9: "Action",
-  10: "Adventure",
-  11: "Science",
-  12: "Family",
-  13: "Biography",
-  14: "Sport",
-  15: "Fantasy",
-  16: "Horror",
-  17: "Mystery",
-  18: "Comedy",
-  19: "Sci-Fi",
-  20: "Music",
-  21: "News",
-  22: "Talk Show",
-  23: "Romance",
-  24: "Game Show",
 };
