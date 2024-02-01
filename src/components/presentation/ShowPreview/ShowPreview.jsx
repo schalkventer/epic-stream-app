@@ -9,17 +9,23 @@ import { COLORS } from "../../../constants";
 
 const Image = styled.img`
   width: 100%;
-  height: 21rem;
+  height: 11rem;
   object-fit: cover;
   background: ${COLORS.background.light};
   display: block;
   line-height: 1;
+  min-width: 11rem;
+
+  @media (min-width: 80rem) {
+    height: 21rem;
+  }
 `;
 
 const Wrapper = styled(ButtonBase)`
   width: 100%;
+  min-width: 11rem;
   background: ${COLORS.background.medium};
-  height: 30rem;
+  height: 20rem;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -28,6 +34,10 @@ const Wrapper = styled(ButtonBase)`
 
   &:not(disabled):hover {
     filter: brightness(1.1);
+  }
+
+  @media (min-width: 80rem) {
+    height: 30rem;
   }
 `;
 

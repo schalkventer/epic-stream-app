@@ -6,17 +6,75 @@ import { useData } from "./FeaturedShows.helpers";
 import ShowDetails from "../../presentation/ShowDetails";
 import ShowPreview from "../../presentation/ShowPreview";
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
+const RowWrap = styled.div`
+  position: relative;
+  padding: 0 2rem;
+  margin: 0 -2rem;
 
-  @media (min-width: 40rem) {
-    grid-template-columns: repeat(3, 1fr);
+  &::after {
+    content: "";
+    display: flex;
+    top: 0;
+    right: 0;
+    position: absolute;
+    z-index: 10;
+    height: 100%;
+    width: 3rem;
+
+    background: linear-gradient(
+      90deg,
+      rgba(16, 20, 30, 0) 0%,
+      rgba(16, 20, 30, 1) 100%
+    );
+  }
+`;
+
+const Row = styled.div`
+  display: flex;
+  gap: 1rem;
+  padding: 0 2rem;
+  margin: 0 -2rem;
+  display: flex;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const Item = styled.div`
+  width: 11rem;
+  display: block;
+
+  @media (min-width: 60rem) {
+    display: none;
+    width: 100%;
+
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      display: block;
+    }
+  }
+
+  @media (min-width: 75rem) {
+    &:nth-child(4) {
+      display: block;
+    }
+  }
+
+  @media (min-width: 90rem) {
+    &:nth-child(5) {
+      display: block;
+    }
   }
 
   @media (min-width: 100rem) {
-    grid-template-columns: repeat(6, 1fr);
+    &:nth-child(6) {
+      display: block;
+    }
   }
 `;
 
@@ -42,42 +100,54 @@ const Loading = () => (
       title="Nature"
       actions={[{ label: "View All", action: "/browse?genre=Nature" }]}
     >
-      <Grid>
-        {new Array(6)
-          .fill(0)
-          .map((val, index) => val + index)
-          .map((key) => (
-            <ShowPreview.Placeholder key={key} />
-          ))}
-      </Grid>
+      <RowWrap>
+        <Row>
+          {new Array(6)
+            .fill(0)
+            .map((val, index) => val + index)
+            .map((key) => (
+              <Item key={key}>
+                <ShowPreview.Placeholder />
+              </Item>
+            ))}
+        </Row>
+      </RowWrap>
     </PageSection>
 
     <PageSection
       title="Action"
       actions={[{ label: "View All", action: "/browse?genre=Action" }]}
     >
-      <Grid>
-        {new Array(6)
-          .fill(0)
-          .map((val, index) => val + index)
-          .map((key) => (
-            <ShowPreview.Placeholder key={key} />
-          ))}
-      </Grid>
+      <RowWrap>
+        <Row>
+          {new Array(6)
+            .fill(0)
+            .map((val, index) => val + index)
+            .map((key) => (
+              <Item key={key}>
+                <ShowPreview.Placeholder />
+              </Item>
+            ))}
+        </Row>
+      </RowWrap>
     </PageSection>
 
     <PageSection
       title="Comedy"
       actions={[{ label: "View All", action: "/browse?genre=Comedy" }]}
     >
-      <Grid>
-        {new Array(6)
-          .fill(0)
-          .map((val, index) => val + index)
-          .map((key) => (
-            <ShowPreview.Placeholder key={key} />
-          ))}
-      </Grid>
+      <RowWrap>
+        <Row>
+          {new Array(6)
+            .fill(0)
+            .map((val, index) => val + index)
+            .map((key) => (
+              <Item key={key}>
+                <ShowPreview.Placeholder />
+              </Item>
+            ))}
+        </Row>
+      </RowWrap>
     </PageSection>
   </>
 );
@@ -101,77 +171,82 @@ export const Component = () => {
           { icon: <ArrowForward />, action: () => move("right") },
         ]}
       >
-        {featured && (
-          <ShowDetails.Component
-            key={featured.id}
-            seasons={featured.seasons}
-            description={featured.description}
-            genres={featured.genres}
-            image={featured.image}
-            title={featured.title}
-            updated={featured.updated}
-          >
-            <Button
-              label="Watch Now"
-              importance="primary"
-              action={`/show?id=${featured.id}`}
-            />
-          </ShowDetails.Component>
-        )}
+        <ShowDetails.Component
+          key={featured.id}
+          seasons={featured.seasons}
+          description={featured.description}
+          genres={featured.genres}
+          image={featured.image}
+          title={featured.title}
+          updated={featured.updated}
+        >
+          <Button
+            label="Watch Now"
+            importance="primary"
+            action={`/show?id=${featured.id}`}
+          />
+        </ShowDetails.Component>
       </PageSection>
 
       <PageSection
         title="Nature"
         actions={[{ label: "View All", action: "/browse?genre=Nature" }]}
       >
-        <Grid>
-          {nature &&
-            nature.map(({ id, image, title, genres, updated }) => (
-              <ShowPreview.Component
-                key={id}
-                genres={genres}
-                image={image}
-                title={title}
-                updated={updated}
-              />
+        <RowWrap>
+          <Row>
+            {nature.map(({ id, image, title, genres, updated }) => (
+              <Item key={id}>
+                <ShowPreview.Component
+                  genres={genres}
+                  image={image}
+                  title={title}
+                  updated={updated}
+                />
+              </Item>
             ))}
-        </Grid>
+          </Row>
+        </RowWrap>
       </PageSection>
 
       <PageSection
         title="Action"
         actions={[{ label: "View All", action: "/browse?genre=Action" }]}
       >
-        <Grid>
-          {action &&
-            action.map(({ id, image, title, genres, updated }) => (
-              <ShowPreview.Component
-                key={id}
-                genres={genres}
-                image={image}
-                title={title}
-                updated={updated}
-              />
+        <RowWrap>
+          <Row>
+            {action.map(({ id, image, title, genres, updated }) => (
+              <Item key={id}>
+                <ShowPreview.Component
+                  key={id}
+                  genres={genres}
+                  image={image}
+                  title={title}
+                  updated={updated}
+                />
+              </Item>
             ))}
-        </Grid>
+          </Row>
+        </RowWrap>
       </PageSection>
 
       <PageSection
         title="Comedy"
         actions={[{ label: "View All", action: "/browse?genre=Comedy" }]}
       >
-        <Grid>
-          {comedy &&
-            comedy.map(({ id, image, title, genres, updated }) => (
-              <ShowPreview.Component
-                key={id}
-                genres={genres}
-                image={image}
-                title={title}
-                updated={updated}
-              />
+        <RowWrap>
+          <Row>
+            {comedy.map(({ id, image, title, genres, updated }) => (
+              <Item key={id}>
+                <ShowPreview.Component
+                  genres={genres}
+                  image={image}
+                  title={title}
+                  updated={updated}
+                />
+              </Item>
             ))}
-        </Grid>
+          </Row>
+        </RowWrap>
       </PageSection>
     </>
   );

@@ -21,7 +21,3 @@ export const App = () => (
     </AppShell>
   </Production>
 );
-
-export default {
-  App,
-};

@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow: hidden;
   border-radius: 6px;
-  height: 25rem;
+  height: 40rem;
   background-image: url(${(props) => props.image});
   background-position: 100% 100%;
   background-size: 70%;
@@ -45,21 +45,32 @@ const Row = styled.div`
   overflow: hidden;
   border-radius: 6px;
   backdrop-filter: blur(20px);
+  flex-direction: column;
 
   background: linear-gradient(
     90deg,
     ${COLORS.background.medium} 50%,
     rgba(0, 0, 0, 0) 100%
   );
+
+  @media (min-width: 40rem) {
+    flex-direction: row;
+  }
 `;
 
 const Image = styled.img`
-  width: 17.5rem;
+  width: 100%;
   object-fit: cover;
-  height: 100%;
+
   display: block;
   background: ${COLORS.background.light};
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  height: 14rem;
+
+  @media (min-width: 40rem) {
+    width: 17.5rem;
+    height: 100%;
+  }
 `;
 
 const Paragraph = styled.div`
@@ -76,6 +87,7 @@ const Side = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   padding: 3rem 2rem;
+  height: 100%;
 `;
 
 export const Component = (props) => {

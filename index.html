@@ -63,17 +63,39 @@
     />
 
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         background: #10141e;
         overflow-y: scroll;
+        margin: 0;
       }
 
-      #placeholder {
+      .html-loading-header {
         background: #161d2f;
+        border-top: 1px solid black;
         border-bottom: 1px solid #2b3142;
         height: 4rem;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+
+        box-shadow:
+          rgba(0, 0, 0, 0.3) 0px 19px 38px,
+          rgba(0, 0, 0, 0.22) 0px 15px 12px;
+      }
+
+      .html-loading-footer {
+        background: #161d2f;
+        border-top: 1px solid #2b3142;
+        height: 4rem;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
         left: 0;
         z-index: 1;
 
@@ -81,11 +103,52 @@
           rgba(0, 0, 0, 0.3) 0px 19px 38px,
           rgba(0, 0, 0, 0.22) 0px 15px 12px;
       }
+
+      .html-loading-content {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @keyframes html-loading-animation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .html-loading-content-spinner {
+        animation-name: html-loading-animation;
+        animation-duration: 0.6s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        border-radius: 50%;
+        height: 8rem;
+        width: 8rem;
+        border: 0.3rem solid #2b3142;
+        border-right: 0.3rem solid #fc4747;
+      }
+
+      @media (min-width: 40rem) {
+        .html-loading-footer {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
     <div id="root">
-      <header id="placeholder"></header>
+      <header class="html-loading-header"></header>
+
+      <main class="html-loading-content">
+        <div class="html-loading-content-spinner"></div>
+      </main>
+
+      <footer class="html-loading-footer"></footer>
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
