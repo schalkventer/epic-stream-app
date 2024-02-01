@@ -39,7 +39,7 @@
     />
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://epic-stream.netlify.app" />
+    <meta property="og:url" content="https://epicstream.netlify.app" />
     <meta property="og:title" content="Epic Stream" />
     <meta
       property="og:description"
@@ -47,11 +47,11 @@
     />
     <meta
       property="og:image"
-      content="https://epic-stream.netlify.app/meta/preview.png"
+      content="https://epicstream.netlify.app/meta/preview.png"
     />
 
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://epic-stream.netlify.app" />
+    <meta property="twitter:url" content="https://epicstream.netlify.app" />
     <meta property="twitter:title" content="Epic Stream" />
     <meta
       property="twitter:description"
@@ -59,11 +59,34 @@
     />
     <meta
       property="twitter:image"
-      content="https://epic-stream.netlify.app/meta/preview.png"
+      content="https://epicstream.netlify.app/meta/preview.png"
     />
+
+    <style>
+      body {
+        background: #10141e;
+        overflow-y: scroll;
+      }
+
+      #placeholder {
+        background: #161d2f;
+        border-bottom: 1px solid #2b3142;
+        height: 4rem;
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 1;
+
+        box-shadow:
+          rgba(0, 0, 0, 0.3) 0px 19px 38px,
+          rgba(0, 0, 0, 0.22) 0px 15px 12px;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <header #placeholder></header>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

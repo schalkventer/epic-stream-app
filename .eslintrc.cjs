@@ -24,7 +24,10 @@ module.exports = {
 
   rules: {
     // Automatically added by Vite configuration.
-    "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+    "react-refresh/only-export-components": [
+      "warn",
+      { allowConstantExport: true },
+    ],
 
     // React object is not required to be in scope when using Vite
     "react/react-in-jsx-scope": "off",
@@ -38,11 +41,8 @@ module.exports = {
       },
     ],
 
-    // Rules below is purely personal preference and has no bearing on the
-    // code/logic itself.
-
-    // Use arrow functions across entire code-base to prevent having to consider
-    // `this` binding.
+    // Personal preference to arrow functions across entire code-base to prevent
+    // having to consider `this` binding.
     "react/function-component-definition": [
       "error",
       {
@@ -50,5 +50,10 @@ module.exports = {
         unnamedComponents: "arrow-function",
       },
     ],
+
+    // Rules below is purely personal preference and has no bearing on the
+    // code/logic itself.
+
+    "import/prefer-default-export": "off",
   },
 };
