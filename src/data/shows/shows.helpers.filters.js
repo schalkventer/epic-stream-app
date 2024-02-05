@@ -1,6 +1,6 @@
 import { shuffle } from "lodash";
 import Fuse from "fuse.js";
-import schema from "../schema";
+import schema from "./shows.schema";
 import validate from "../../utils/validate";
 
 /**
@@ -12,8 +12,8 @@ export const filters = {
    * @param {string} value
    */
   createSorting: (value) => (items) => {
-    const inner = validate(items, schema.shows.list);
-    const sorting = validate(value, schema.shows.sorting);
+    const inner = validate(items, schema.list);
+    const sorting = validate(value, schema.sorting);
 
     if (sorting === "Random") return shuffle(inner);
 
@@ -33,7 +33,7 @@ export const filters = {
       }
     });
 
-    return validate(result, schema.shows.list);
+    return validate(result, schema.list);
   },
 
   /**
@@ -41,7 +41,7 @@ export const filters = {
    * @param {number} value
    */
   createLimit: (amount) => (items) => {
-    const inner = validate(items, schema.shows.list);
+    const inner = validate(items, schema.list);
     if (amount < 1) return inner;
     return items.slice(0, amount);
   },
@@ -51,7 +51,7 @@ export const filters = {
    * @param {string} value
    */
   createSearch: (value) => (items) => {
-    const inner = validate(items, schema.shows.list);
+    const inner = validate(items, schema.list);
 
     const fuse = new Fuse(inner, {
       minMatchCharLength: 3,
@@ -60,7 +60,7 @@ export const filters = {
 
     if (value.length < 3) return items;
     const result = fuse.search(value).map(({ item }) => item);
-    return validate(result, schema.shows.list);
+    return validate(result, schema.list);
   },
 
   /**
@@ -69,10 +69,10 @@ export const filters = {
    * @returns
    */
   createGenre: (genre) => (items) => {
-    const inner = validate(items, schema.shows.list);
+    const inner = validate(items, schema.list);
     if (genre === "All") return inner;
 
     const result = inner.filter((item) => item.genres.includes(genre));
-    return validate(result, schema.shows.list);
+    return validate(result, schema.list);
   },
 };

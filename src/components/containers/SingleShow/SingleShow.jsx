@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import data from "../../../data";
+import { useLayoutEffect } from "react";
+import styled from "@emotion/styled";
+import shows from "../../../data/shows";
+import episodes from "../../../data/episodes";
 import schema from "./SingleShow.schema";
 import { Component as PageSection } from "../../presentation/PageSection";
 import ShowDetails from "../../presentation/ShowDetails";
 import { Component as UserEntry } from "../../presentation/UserEntry";
-import { Component as EpisodePreview } from "../../presentation/EpisodePreview";
+import EpisodePreview from "../../presentation/EpisodePreview";
 
-const Loading = () => (
-  <PageSection title="Show" actions={[]}>
-    <ShowDetails.Placeholder />
-  </PageSection>
-);
+const Wrapper = styled.div`
+  padding-top: 1rem;
+`;
 
 /**
  *
@@ -19,21 +20,24 @@ export const Component = (props) => {
   const { id } = props;
 
   const navigate = useNavigate();
-  const show = data.hooks.useSingleShow(id);
+  const { result: show } = shows.hooks.useSingle(id);
 
-  const { list, query, changeQuery } = data.hooks.useEpisodes({
+  const {
+    result: list,
+    query: { season },
+    change,
+  } = episodes.hooks.useList({
     show: id,
     season: 1,
   });
 
-  if (!show || !list) return <Loading />;
-
-  const { description, genres, image, seasons, title, updated } = show;
-  const { season } = query;
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, []);
 
   const handleSeasonChange = (inner) => {
     const trimmed = inner.replace(/season\s/i, "");
-    changeQuery({ season: Number(trimmed) });
+    change({ show: id, season: Number(trimmed) });
   };
 
   return (
@@ -46,44 +50,55 @@ export const Component = (props) => {
         },
       ]}
     >
-      <ShowDetails.Component
-        seasons={seasons}
-        description={description}
-        genres={genres}
-        image={image}
-        title={title}
-        updated={updated}
-      >
-        <UserEntry
-          label="Season"
-          value={`Season ${season}`}
-          options={new Array(seasons).fill(0).map((_, i) => `Season ${i + 1}`)}
-          onChange={handleSeasonChange}
-        />
-      </ShowDetails.Component>
+      {!show && <ShowDetails.Placeholder />}
 
-      {list.map(
-        ({
-          episode,
-          id: innerId,
-          image: innerImage,
-          progress,
-          title: innerTitle,
-        }) => {
-          const subtitle = `S${season.toString().padStart(2, "0")} E${episode.toString().padStart(2, "0")}`;
-
-          return (
-            <EpisodePreview
-              key={innerId}
-              image={innerImage}
-              title={innerTitle}
-              subtitle={subtitle}
-              percentage={progress}
-              onClick={() => console.log(innerId)}
-            />
-          );
-        },
+      {show && (
+        <ShowDetails.Component
+          seasons={show.seasons}
+          description={show.description}
+          genres={show.genres}
+          image={show.image}
+          title={show.title}
+          updated={show.updated}
+        >
+          <UserEntry
+            label="Season"
+            value={`Season ${season}`}
+            onChange={handleSeasonChange}
+            options={new Array(show.seasons)
+              .fill(0)
+              .map((_, i) => `Season ${i + 1}`)}
+          />
+        </ShowDetails.Component>
       )}
+
+      <Wrapper>
+        {(!list || list.length < 1) &&
+          new Array(20)
+            .fill(0)
+            .map((_, index) => (
+              <EpisodePreview.Placeholder key={index.toString()} />
+            ))}
+
+        {list &&
+          list.map(
+            ({ episode, id: innerId, image, progress, title, description }) => {
+              const subtitle = `S${season.toString().padStart(2, "0")} E${episode.toString().padStart(2, "0")}`;
+
+              return (
+                <EpisodePreview.Component
+                  key={innerId}
+                  image={image}
+                  title={title}
+                  subtitle={subtitle}
+                  percentage={progress}
+                  description={description}
+                  onClick={() => console.log(innerId)}
+                />
+              );
+            },
+          )}
+      </Wrapper>
     </PageSection>
   );
 };

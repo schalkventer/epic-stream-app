@@ -4,11 +4,13 @@ import { Component as Production } from "./components/environments/Production";
 import { Component as BrowseShows } from "./components/containers/BrowseShows";
 import { Component as SingleShow } from "./components/containers/SingleShow";
 import { Component as FeaturedShows } from "./components/containers/FeaturedShows";
-
 import { Component as AppShell } from "./components/presentation/AppShell";
 
 /**
- *
+ * A wrapper around the `SingleShow` that intercepts and passes specific
+ * route-level information to the container. Separating the routing logic from
+ * the container itself makes it easier to test the container without emulating
+ * the browser URL behaviour.
  */
 const SingleShowWrap = () => {
   const { id } = useParams();
@@ -16,7 +18,10 @@ const SingleShowWrap = () => {
 };
 
 /**
- *
+ * A wrapper around the `BrowseShows` that intercepts and passes specific
+ * route-level information to the container. Separating the routing logic from
+ * the container itself makes it easier to test the container without emulating
+ * the browser URL behaviour.
  */
 const BrowseShowsWrap = () => {
   const { search } = useLocation();
@@ -30,10 +35,10 @@ const BrowseShowsWrap = () => {
 };
 
 /**
- * Top-most component responsible for managing all logic that sits above the
+ * Top-most component responsible for managing everything that sits above the
  * `container` level. The primary purpose of this component is to add the
- * `Production` environment and to feed routing logic to the app itself -
- * specifically in terms of which containers should be rendered.
+ * `Production` environment and to decided which containers to render based on
+ * routing information.
  */
 export const App = () => (
   <Production>

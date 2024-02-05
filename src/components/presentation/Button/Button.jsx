@@ -25,21 +25,21 @@ const Wrapper = styled(Button)`
   }
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
 export const Component = (props) => {
   const { label, icon, importance = "secondary", action } = props;
   const handleClick = () => typeof action === "function" && action();
 
   if (typeof action === "string") {
     return (
-      <Wrapper
-        importance={importance}
-        icon={icon}
-        as={Link}
-        to={action}
-        disableRipple
-      >
-        {icon || label}
-      </Wrapper>
+      <StyledLink to={action}>
+        <Wrapper importance={importance} icon={icon}>
+          {icon || label}
+        </Wrapper>
+      </StyledLink>
     );
   }
 

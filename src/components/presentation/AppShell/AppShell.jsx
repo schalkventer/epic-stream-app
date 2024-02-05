@@ -18,7 +18,7 @@ const Wrapper = styled.header`
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 20;
 
   box-shadow:
     rgba(0, 0, 0, 0.3) 0px 19px 38px,
@@ -27,7 +27,6 @@ const Wrapper = styled.header`
 
 const Inner = styled.div`
   background: ${COLORS.background.medium};
-  position: 100;
   border-bottom: 1px solid ${COLORS.background.light};
   padding: 0 2rem;
 
@@ -135,7 +134,12 @@ export const Presentation = (props) => {
               <List>
                 {h.LINKS.map(({ url, label }) => (
                   <Item key={url}>
-                    <LinkButton as={Link} to={url} disabled={url === active}>
+                    <LinkButton
+                      as={Link}
+                      to={url}
+                      disabled={url === active}
+                      disableRipple={Boolean(url)}
+                    >
                       <TextElement importance="primary">{label}</TextElement>
                     </LinkButton>
                   </Item>

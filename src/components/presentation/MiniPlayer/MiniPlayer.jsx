@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { PlayArrow } from "@mui/icons-material";
 import { COLORS } from "../../../constants";
 
+import schema from "./MiniPlayer.schema";
 import { Component as ProgressLine } from "../ProgressLine";
 import { Component as TextElement } from "../TextElement";
 import { Component as Button } from "../Button";
@@ -49,41 +50,61 @@ const Image = styled.img`
   display: block;
 `;
 
-export const Component = () => (
-  <Wrapper>
-    <Row>
-      <Button icon={<PlayArrow />} />
-      <Start>
-        <TextElement importance="inherit" size="s">
-          00:00
-        </TextElement>
-      </Start>
+const MINUTE_AS_SECONDS = 60;
+const HOUR_AS_SECONDS = MINUTE_AS_SECONDS * 60;
 
-      <ProgressLine percentage={40} />
+const toTimeString = (seconds) => {
+  const hour = Math.floor(seconds / HOUR_AS_SECONDS);
+  const minutes = Math.floor((seconds % HOUR_AS_SECONDS) / MINUTE_AS_SECONDS);
 
-      <End>
-        <TextElement importance="inherit" size="s">
-          00:00
-        </TextElement>
-      </End>
+  const remainingSeconds = Math.floor(
+    (seconds % HOUR_AS_SECONDS) % MINUTE_AS_SECONDS,
+  );
 
-      <div>
-        <Image src="https://picsum.photos/200/300" />
-      </div>
-
-      <div>
-        <Info>
-          <Title>
-            <TextElement importance="primary">asd</TextElement>
-          </Title>
-
-          <TextElement size="s">ff</TextElement>
-        </Info>
-      </div>
-    </Row>
-  </Wrapper>
-);
-
-export default {
-  Component,
+  return [hour, minutes, remainingSeconds]
+    .map((inner) => inner.toString().padStart(2, "0"))
+    .join(":");
 };
+
+export const Component = (props) => {
+  const { onStart, progress, total, image, title, subtitle } = props;
+  const progressAsSeconds = (total / progress) * 100;
+
+  return (
+    <Wrapper>
+      <Row>
+        <Button icon={<PlayArrow />} action={onStart} />
+
+        <Start>
+          <TextElement importance="inherit" size="m">
+            {toTimeString(progressAsSeconds)}
+          </TextElement>
+        </Start>
+
+        <ProgressLine percentage={40} />
+
+        <End>
+          <TextElement importance="inherit" size="s">
+            {toTimeString(total)}
+          </TextElement>
+        </End>
+
+        <div>
+          <Image src={image} />
+        </div>
+
+        <div>
+          <Info>
+            <Title>
+              <TextElement importance="primary">{title}</TextElement>
+            </Title>
+
+            <TextElement size="s">{subtitle}</TextElement>
+          </Info>
+        </div>
+      </Row>
+    </Wrapper>
+  );
+};
+
+Component.propTypes = schema.props;

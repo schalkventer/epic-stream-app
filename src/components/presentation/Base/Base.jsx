@@ -17,7 +17,8 @@ const styles = css`
     background: ${COLORS.background.dark};
     color: ${COLORS.foreground.medium};
     font-family: "Outfit", sans-serif;
-    overflow-y: scroll;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
   }
 `;
 

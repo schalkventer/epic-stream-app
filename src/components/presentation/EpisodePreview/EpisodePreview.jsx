@@ -1,8 +1,8 @@
-import { ButtonBase } from "@mui/material";
+import { ButtonBase, Skeleton } from "@mui/material";
 import styled from "@emotion/styled";
 import { COLORS } from "../../../constants";
 import { Component as ProgressLine } from "../ProgressLine";
-import { Component as TextElement } from "../TextElement";
+import TextElement from "../TextElement";
 import schema from "./EpisodePreview.schema";
 
 const Wrapper = styled(ButtonBase)`
@@ -20,6 +20,7 @@ const Wrapper = styled(ButtonBase)`
 
 const Info = styled.div`
   text-align: left;
+  flex-grow: 1;
 `;
 
 const Title = styled.div`
@@ -44,8 +45,32 @@ const Image = styled.img`
   background: ${COLORS.background.light};
 `;
 
+const Description = styled.div`
+  width: 100%;
+  max-width: 50rem;
+  text-align: left;
+  padding-right: 2rem;
+`;
+
+export const Placeholder = () => (
+  <Wrapper disabled>
+    <Row>
+      <Image as={Skeleton} variant="rectangular" />
+
+      <Info>
+        <Title>
+          <TextElement.Placeholder size="m" width={8} />
+        </Title>
+
+        <TextElement.Placeholder size="s" width={4} />
+      </Info>
+    </Row>
+    <ProgressLine percentage={0} />
+  </Wrapper>
+);
+
 export const Component = (props) => {
-  const { image, title, subtitle, percentage, onClick } = props;
+  const { image, title, subtitle, percentage, description, onClick } = props;
 
   return (
     <Wrapper onClick={onClick} disabled={!onClick}>
@@ -54,11 +79,21 @@ export const Component = (props) => {
 
         <Info>
           <Title>
-            <TextElement importance="primary">{title}</TextElement>
+            <TextElement.Component importance="primary" size="m">
+              {title}
+            </TextElement.Component>
           </Title>
 
-          <TextElement size="s">{subtitle}</TextElement>
+          <TextElement.Component size="s" importance="primary">
+            {subtitle}
+          </TextElement.Component>
         </Info>
+
+        <Description>
+          <TextElement.Component size="s" lines={2}>
+            {description}
+          </TextElement.Component>
+        </Description>
       </Row>
       <ProgressLine percentage={percentage} />
     </Wrapper>
@@ -66,5 +101,3 @@ export const Component = (props) => {
 };
 
 Component.propTypes = schema.props;
-
-export default { Component };

@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import styled from "@emotion/styled";
 import schema from "./BrowseShows.schema";
+import shows from "../../../data/shows";
 import { PageFilters, useOpen } from "../../presentation/AppShell";
-import data from "../../../data";
 import { Component as PageSection } from "../../presentation/PageSection";
 import ShowPreview from "../../presentation/ShowPreview";
-import { useEffect } from "react";
 
 const Grid = styled.div`
   display: grid;
@@ -54,16 +54,22 @@ const Loading = () => (
  *
  */
 export const Component = (props) => {
-  const { query: initial } = props;
+  const { query: startingQuery } = props;
   const [open, setOpen] = useOpen();
-  const { list, query, changeQuery } = data.hooks.useShowsList(initial);
-  const { genre, search, sorting } = query;
+
+  const { result, query, change } = shows.hooks.useList({
+    ...shows.helpers.BLANK_QUERY,
+    ...startingQuery,
+  });
 
   useEffect(() => {
-    if (!open && Object.keys(initial).length > 0) setOpen(true);
-    if (open && Object.keys(initial).length < 1) setOpen(false);
+    if (!open && Object.keys(startingQuery).length > 0) setOpen(true);
+    if (open && Object.keys(startingQuery).length < 1) setOpen(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initial]);
+  }, [startingQuery]);
+
+  if (!query) throw new Error("Query is required");
+  const { genre, search, sorting } = query;
 
   return (
     <>
@@ -72,32 +78,38 @@ export const Component = (props) => {
           {
             label: "Search",
             value: search,
-            onChange: (inner) => changeQuery({ search: inner }),
             size: "l",
+
+            onChange: (inner) =>
+              change({ ...shows.helpers.BLANK_QUERY, search: inner }),
           },
           {
             label: "Genre",
             value: genre,
-            onChange: (inner) => changeQuery({ genre: inner }),
-            options: ["All", ...data.schema.shows.genre.options],
+            options: ["All", ...shows.schema.genre.options],
             size: "s",
+
+            onChange: (inner) =>
+              change({ ...shows.helpers.BLANK_QUERY, genre: inner }),
           },
           {
             label: "Sort",
             value: sorting,
-            onChange: (inner) => changeQuery({ sorting: inner }),
-            options: data.schema.shows.sorting.options,
+            options: shows.schema.sorting.options,
             size: "s",
+
+            onChange: (inner) =>
+              change({ ...shows.helpers.BLANK_QUERY, sorting: inner }),
           },
         ]}
       />
 
       <PageSection title="Browse" actions={[]}>
         <Grid>
-          {!list && <Loading />}
+          {!result && <Loading />}
 
-          {list &&
-            list.map(({ id, image, title, genres, updated }) => (
+          {result &&
+            result.map(({ id, image, title, genres, updated }) => (
               <ShowPreview.Component
                 key={id}
                 genres={genres}

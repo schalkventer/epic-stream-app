@@ -1,12 +1,16 @@
 import { createStore } from "zustand";
-import schema from "./schema";
+import { schema } from "./store.schema";
 
 const createBlank = () =>
-  schema.store.parse({
+  schema.parse({
     shows: undefined,
     episodes: [],
     favourites: undefined,
-    player: undefined,
+
+    player: {
+      id: null,
+      status: "stopped",
+    },
   });
 
 export const store = createStore(createBlank);

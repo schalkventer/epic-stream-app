@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Component } from "./MiniPlayer";
 import { Component as Testing } from "../../environments/Testing";
 
@@ -7,16 +6,16 @@ export default {
   component: Component,
 };
 
-export const Basic = () => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <Testing>
-      <button onClick={() => setOpen(true)} type="button">
-        CLICK ME
-      </button>
-
-      {open && <Component />}
-    </Testing>
-  );
-};
+export const Basic = () => (
+  <Testing>
+    <Component
+      image="https://picsum.photos/200/300"
+      title="Four Hello World"
+      subtitle="Eight Ipsum Lorem"
+      progress={34}
+      total={1.8 * 60 * 60}
+      // eslint-disable-next-line no-alert
+      onStart={() => alert("onStart")}
+    />
+  </Testing>
+);

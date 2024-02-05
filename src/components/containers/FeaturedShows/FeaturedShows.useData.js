@@ -1,27 +1,35 @@
 import { useEffect, useState } from "react";
-import data from "../../../data";
+import shows from "../../../data/shows";
 
 /**
  *
  */
 export const useData = () => {
-  const { list } = data.hooks.useShowsList({ limit: 6, sorting: "Random" });
   const [status, setStatus] = useState("LOADING");
   const [step, setStep] = useState(0);
 
-  const nature = data.hooks.useShowsList({
+  const { result } = shows.hooks.useList({
+    ...shows.helpers.BLANK_QUERY,
+    limit: 6,
+    sorting: "Random",
+  });
+
+  const nature = shows.hooks.useList({
+    ...shows.helpers.BLANK_QUERY,
     limit: 6,
     genre: "Nature",
     sorting: "Random",
   });
 
-  const action = data.hooks.useShowsList({
+  const action = shows.hooks.useList({
+    ...shows.helpers.BLANK_QUERY,
     limit: 6,
     genre: "Action",
     sorting: "Random",
   });
 
-  const comedy = data.hooks.useShowsList({
+  const comedy = shows.hooks.useList({
+    ...shows.helpers.BLANK_QUERY,
     limit: 6,
     genre: "Comedy",
     sorting: "Random",
@@ -29,10 +37,10 @@ export const useData = () => {
 
   useEffect(() => {
     if (status !== "LOADING") return;
-    if (list && nature && action && comedy) setStatus("IDLE");
-  }, [list, nature, action, comedy, status]);
+    if (result && nature && action && comedy) setStatus("IDLE");
+  }, [result, nature, action, comedy, status]);
 
-  const max = (list || []).length - 1;
+  const max = (result || []).length - 1;
 
   /**
    *
@@ -45,10 +53,10 @@ export const useData = () => {
   };
 
   return {
-    featured: list && list[step],
-    nature: nature.list,
-    action: action.list,
-    comedy: comedy.list,
+    featured: result && result[step],
+    nature: nature.result,
+    action: action.result,
+    comedy: comedy.result,
     move,
     status,
   };

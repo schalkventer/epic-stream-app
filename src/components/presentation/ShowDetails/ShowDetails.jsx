@@ -97,6 +97,8 @@ const Side = styled.div`
 const ChildWrap = styled.div`
   width: 100%;
   max-width: 20rem;
+  display: flex;
+  justify-content: flex-start;
 `;
 
 export const Component = (props) => {

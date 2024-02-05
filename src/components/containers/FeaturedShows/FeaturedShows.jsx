@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { ArrowForward, ArrowBack } from "@mui/icons-material";
 import { Component as Button } from "../../presentation/Button";
 import { Component as PageSection } from "../../presentation/PageSection";
-import { useData } from "./FeaturedShows.helpers";
+import { useData } from "./FeaturedShows.useData";
 import ShowDetails from "../../presentation/ShowDetails";
 import ShowPreview from "../../presentation/ShowPreview";
 
@@ -183,7 +183,7 @@ export const Component = () => {
           <Button
             label="Watch Now"
             importance="primary"
-            action={`/show?id=${featured.id}`}
+            action={`/show/${featured.id}`}
           />
         </ShowDetails.Component>
       </PageSection>
