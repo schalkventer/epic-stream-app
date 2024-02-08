@@ -1,6 +1,6 @@
 import { createGlobalState } from "react-use";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState, createRef } from "react";
+import { useEffect, createRef } from "react";
 import styled from "@emotion/styled";
 import { useSpring, animated } from "@react-spring/web";
 import { Search, Close } from "@mui/icons-material";

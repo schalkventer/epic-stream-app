@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import { PlayArrow } from "@mui/icons-material";
-import { COLORS } from "../../../constants";
+import { COLORS, MAIN_CONTENT_WIDTH } from "../../../constants";
 
 import schema from "./MiniPlayer.schema";
 import { Component as ProgressLine } from "../ProgressLine";
 import { Component as TextElement } from "../TextElement";
 import { Component as Button } from "../Button";
+import progress from "../../../data/progress";
 
 const Wrapper = styled.div`
   background: ${COLORS.background.medium};
@@ -39,6 +40,8 @@ const Row = styled.div`
   width: 100%;
   height: 100%;
   align-items: center;
+  max-width: ${MAIN_CONTENT_WIDTH};
+  margin: 0 auto;
 `;
 
 const Image = styled.img`
@@ -50,25 +53,17 @@ const Image = styled.img`
   display: block;
 `;
 
-const MINUTE_AS_SECONDS = 60;
-const HOUR_AS_SECONDS = MINUTE_AS_SECONDS * 60;
-
-const toTimeString = (seconds) => {
-  const hour = Math.floor(seconds / HOUR_AS_SECONDS);
-  const minutes = Math.floor((seconds % HOUR_AS_SECONDS) / MINUTE_AS_SECONDS);
-
-  const remainingSeconds = Math.floor(
-    (seconds % HOUR_AS_SECONDS) % MINUTE_AS_SECONDS,
-  );
-
-  return [hour, minutes, remainingSeconds]
-    .map((inner) => inner.toString().padStart(2, "0"))
-    .join(":");
-};
-
 export const Component = (props) => {
-  const { onStart, progress, total, image, title, subtitle } = props;
-  const progressAsSeconds = (total / progress) * 100;
+  const {
+    onStart,
+    progress: percentage,
+    total,
+    image,
+    title,
+    subtitle,
+  } = props;
+
+  const seconds = (percentage / 100) * total;
 
   return (
     <Wrapper>
@@ -77,15 +72,15 @@ export const Component = (props) => {
 
         <Start>
           <TextElement importance="inherit" size="m">
-            {toTimeString(progressAsSeconds)}
+            {progress.helpers.convertTime.toHourString(seconds)}
           </TextElement>
         </Start>
 
-        <ProgressLine percentage={40} />
+        <ProgressLine percentage={progress} />
 
         <End>
           <TextElement importance="inherit" size="s">
-            {toTimeString(total)}
+            {progress.helpers.convertTime.toHourString(total)}
           </TextElement>
         </End>
 
@@ -96,10 +91,14 @@ export const Component = (props) => {
         <div>
           <Info>
             <Title>
-              <TextElement importance="primary">{title}</TextElement>
+              <TextElement importance="primary" lines={1}>
+                {title}
+              </TextElement>
             </Title>
 
-            <TextElement size="s">{subtitle}</TextElement>
+            <TextElement size="s" lines={1}>
+              {subtitle}
+            </TextElement>
           </Info>
         </div>
       </Row>

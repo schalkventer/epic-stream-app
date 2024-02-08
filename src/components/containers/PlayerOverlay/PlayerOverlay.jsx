@@ -1,56 +1,22 @@
-import styled from "@emotion/styled";
-import data from "../../../data";
+import episodes from "../../../data/episodes";
 import schema from "./PlayerOverlay.schema";
-import { Component as MiniPlayer } from "../../presentation/MiniPlayer";
-import { Component as OverlayContent } from "../../presentation/OverlayContent";
-
-const MiniWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-`;
+import { Inner } from "./PlayerOverlay.Inner";
 
 export const Component = (props) => {
-  const { id, show: showId, status, onStop, onStart } = props;
-  const show = data.hooks.useSingleShow(showId);
-
-  const { result: episode } = data.hooks.useSingleEpisode({
-    id,
-    show,
-  });
-
-  if (!show || !episode) return null;
+  const { children } = props;
+  const { id, status, toggle } = episodes.hooks.usePlayer();
 
   return (
-    <div>
-      {status === "stopped" && (
-        <MiniWrapper>
-          <MiniPlayer
-            image={episode.image}
-            onStart={onStart}
-            progress={episode.progress}
-            title={episode.title}
-            subtitle="asdasd"
-            total={5000}
-          />
-        </MiniWrapper>
+    <>
+      {children}
+      {id && (
+        <Inner
+          id={id}
+          isOpen={status === "playing"}
+          toggleOpen={() => toggle(id)}
+        />
       )}
-
-      {status === "playing" && (
-        <OverlayContent
-          title="Player"
-          secondary={{ action: () => console.log(1), label: "Add Favourite" }}
-          primary={{ action: onStop, label: "Close" }}
-        >
-          {/* <video
-            src="https://epic-stream-api.netlify.app/placeholder.mp4"
-            controls
-            controlsList="nodownload"
-          /> */}
-        </OverlayContent>
-      )}
-    </div>
+    </>
   );
 };
 

@@ -22,9 +22,9 @@ const ErrorAlert = () => (
     >
       <Content>
         <TextElement>
-          A critical error was encountered in the app. Often times simply
-          refreshing the page resolves the problem, however if the issue
-          persists after a hard refresh please contact support at
+          A critical error was encountered while running Epic Stream. Please
+          refresh the current page to see if it resolves the problem. If the
+          issue persists after a hard refresh please contact support at
           support@epic-stream.app
         </TextElement>
       </Content>

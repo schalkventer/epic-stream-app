@@ -35,6 +35,7 @@ export const fullShow = z.object({
           date: z.string(),
           image: z.string(),
           file: z.string(),
+          duration: z.number(),
         }),
       ),
     }),

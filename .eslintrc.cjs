@@ -41,6 +41,9 @@ module.exports = {
       },
     ],
 
+    // No subtitles available for any of the placeholder videos
+    "jsx-a11y/media-has-caption": "off",
+
     // Personal preference to arrow functions across entire code-base to prevent
     // having to consider `this` binding.
     "react/function-component-definition": [

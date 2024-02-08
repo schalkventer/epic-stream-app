@@ -4,6 +4,7 @@ import { Component as Production } from "./components/environments/Production";
 import { Component as BrowseShows } from "./components/containers/BrowseShows";
 import { Component as SingleShow } from "./components/containers/SingleShow";
 import { Component as FeaturedShows } from "./components/containers/FeaturedShows";
+import { Component as PlayerOverlay } from "./components/containers/PlayerOverlay";
 import { Component as AppShell } from "./components/presentation/AppShell";
 
 /**
@@ -42,12 +43,14 @@ const BrowseShowsWrap = () => {
  */
 export const App = () => (
   <Production>
-    <AppShell>
-      <Routes>
-        <Route path="/" element={<FeaturedShows />} />
-        <Route path="/browse" element={<BrowseShowsWrap />} />
-        <Route path="/show/:id" element={<SingleShowWrap />} />
-      </Routes>
-    </AppShell>
+    <PlayerOverlay>
+      <AppShell>
+        <Routes>
+          <Route path="/" element={<FeaturedShows />} />
+          <Route path="/browse" element={<BrowseShowsWrap />} />
+          <Route path="/show/:id" element={<SingleShowWrap />} />
+        </Routes>
+      </AppShell>
+    </PlayerOverlay>
   </Production>
 );

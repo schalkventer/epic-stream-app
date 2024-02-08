@@ -4,7 +4,12 @@ import schema from "./shows.schema";
 import validate from "../../utils/validate";
 
 /**
+ * A collection of higher-order functions that accept query-specific values and
+ * return a new function that takes an array and performs the query on the array
+ * (filtering all items that do not match the query).
  *
+ * This pattern allows the creation of all queries in an array and the items to
+ * be piped through the array one by one by means of a reduce function.
  */
 export const filters = {
   /**

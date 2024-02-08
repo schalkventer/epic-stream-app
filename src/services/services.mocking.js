@@ -6,7 +6,7 @@ import { uniq } from "lodash";
  */
 const delay = () =>
   new Promise((resolve) => {
-    setTimeout(() => resolve(undefined), 1500);
+    setTimeout(() => resolve(undefined), 1000);
   });
 
 /**
@@ -54,15 +54,21 @@ const createFullShow = (show) => {
     seasons: emptySeasons.map((count) => ({
       id: f.string.uuid(),
       season: count,
+
       episodes: new Array(f.number.int({ min: 3, max: 20 }))
         .fill(null)
         .map((__, innerIndex) => ({
-          id: f.string.uuid(),
+          id:
+            count === 1 && innerIndex === 1
+              ? "55ef4ea2-a739-4e6e-999e-3a69962b2e37"
+              : f.string.uuid(),
+
           episode: innerIndex + 1,
           description: f.lorem.paragraphs(3),
           date: f.date.past().toISOString(),
           image: f.image.urlPicsumPhotos(),
           file: f.internet.url(),
+          duration: 12,
 
           title: f.datatype.boolean()
             ? f.lorem.words({ min: 8, max: 14 })

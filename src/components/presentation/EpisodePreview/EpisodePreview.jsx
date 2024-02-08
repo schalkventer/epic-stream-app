@@ -11,10 +11,14 @@ const Wrapper = styled(ButtonBase)`
   flex-direction: column;
   overflow: hidden;
   border-radius: 6px;
-  height: 5.5rem;
+  height: 10rem;
 
   &:hover {
     filter: brightness(1.2);
+  }
+
+  @media (min-width: 50rem) {
+    height: 5.5rem;
   }
 `;
 
@@ -24,30 +28,42 @@ const Info = styled.div`
 `;
 
 const Title = styled.div`
-  padding: 0.25rem 0;
+  padding: 0.25rem 1rem 0.5rem 0;
+  max-width: 30rem;
 `;
 
 const Row = styled.div`
   display: flex;
-  padding: 0 1rem;
   width: 100%;
   height: 100%;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+
+  @media (min-width: 50rem) {
+    flex-direction: row;
+    padding: 0 1rem;
+    align-items: center;
+  }
 `;
 
 const Image = styled.img`
+  display: none;
   height: 3.5rem;
   width: 5rem;
   border-radius: 6px;
   object-fit: cover;
   margin-right: 1rem;
-  display: block;
   background: ${COLORS.background.light};
+
+  @media (min-width: 50rem) {
+    display: block;
+  }
 `;
 
 const Description = styled.div`
   width: 100%;
-  max-width: 50rem;
+  max-width: 70rem;
   text-align: left;
   padding-right: 2rem;
 `;
@@ -55,7 +71,9 @@ const Description = styled.div`
 export const Placeholder = () => (
   <Wrapper disabled>
     <Row>
-      <Image as={Skeleton} variant="rectangular" />
+      <div>
+        <Image as={Skeleton} variant="rectangular" />
+      </div>
 
       <Info>
         <Title>
@@ -65,6 +83,7 @@ export const Placeholder = () => (
         <TextElement.Placeholder size="s" width={4} />
       </Info>
     </Row>
+
     <ProgressLine percentage={0} />
   </Wrapper>
 );
@@ -75,11 +94,13 @@ export const Component = (props) => {
   return (
     <Wrapper onClick={onClick} disabled={!onClick}>
       <Row>
-        <Image src={image} />
+        <div>
+          <Image src={image} />
+        </div>
 
         <Info>
           <Title>
-            <TextElement.Component importance="primary" size="m">
+            <TextElement.Component importance="primary" size="m" lines={2}>
               {title}
             </TextElement.Component>
           </Title>

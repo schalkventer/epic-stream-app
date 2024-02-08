@@ -6,6 +6,7 @@ const createBlank = () =>
     shows: undefined,
     episodes: [],
     favourites: undefined,
+    progress: {},
 
     player: {
       id: null,

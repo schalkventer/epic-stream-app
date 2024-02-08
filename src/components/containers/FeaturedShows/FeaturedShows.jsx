@@ -48,31 +48,31 @@ const Item = styled.div`
   width: 11rem;
   display: block;
 
-  @media (min-width: 60rem) {
+  @media (min-width: 50rem) {
     display: none;
     width: 100%;
 
-    &:nth-child(1),
-    &:nth-child(2),
-    &:nth-child(3) {
+    &:nth-of-type(1),
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
       display: block;
     }
   }
 
   @media (min-width: 75rem) {
-    &:nth-child(4) {
+    &:nth-of-type(4) {
       display: block;
     }
   }
 
   @media (min-width: 90rem) {
-    &:nth-child(5) {
+    &:nth-of-type(5) {
       display: block;
     }
   }
 
   @media (min-width: 100rem) {
-    &:nth-child(6) {
+    &:nth-of-type(6) {
       display: block;
     }
   }

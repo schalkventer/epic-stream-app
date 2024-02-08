@@ -6,7 +6,11 @@ import helpers from "./episodes.helpers";
 import schema from "./episodes.schema";
 import services from "../../services";
 
-const fired = [];
+/**
+ * A globally shared array used to determine whether a show has been requested
+ * from anywhere in the codebase yet.
+ */
+let fired = [];
 
 /**
  * A extremely thin abstraction over the service layer provided by the `context`
@@ -24,18 +28,18 @@ const fired = [];
  * the session, or if it is currently awaiting a response then the function
  * won't do anything.
  *
- * @param {string} id - The `id` property associated with a specific show. This
+ * @param {string} showId - The `id` property associated with a specific show. This
  * value is commonly retrieved from `id` in the `show` object.
  */
 const useSync = () => {
   const api = useContext(services.context);
 
-  const sync = async (id) => {
-    if (!id) throw new Error("id is required");
-    if (fired.includes(id)) return true;
-    fired.push(id);
+  const sync = (showId) => {
+    if (!showId) throw new Error("id is required");
+    if (fired.includes(showId)) return true;
+    fired = [...fired, showId];
 
-    api.http.getFullShow(id).then((response) => {
+    api.http.getFullShow(showId).then((response) => {
       const result = helpers.responseToItems(response);
 
       store.setState((state) => ({
@@ -90,6 +94,51 @@ const useSync = () => {
  * hook is initialised. If you do not pass a value, then the hook will wait
  * until `changeQuery` is manually called instead.
  */
+const useSeason = (initial = null) => {
+  const sync = useSync();
+  const items = useStore(store, (state) => state.episodes);
+  const [result, setResult] = useState(null);
+  const [query, setQuery] = useState(initial);
+
+  useEffect(() => {
+    if (!query) return;
+    const { show, season } = query;
+    const response = sync(query.show);
+
+    if (!response) return;
+
+    const inner = helpers.applySeasonFilter({
+      items,
+      show,
+      season,
+    });
+
+    setResult(validate(inner, schema.list));
+  }, [query, items, sync]);
+
+  /**
+   * @param {object} newQuery
+   */
+  const change = (newQuery) => {
+    if (!newQuery) throw new Error("New query value is required");
+    const mergedQuery = { ...(query || {}), ...newQuery };
+    if (JSON.stringify(mergedQuery) === JSON.stringify(query)) return;
+    setQuery(validate(mergedQuery, schema.queries.season));
+  };
+
+  return validate(
+    {
+      result,
+      query,
+      change,
+    },
+    schema.results.season,
+  );
+};
+
+/**
+ * @param {object[]} initial
+ */
 const useList = (initial = null) => {
   const sync = useSync();
   const items = useStore(store, (state) => state.episodes);
@@ -98,30 +147,26 @@ const useList = (initial = null) => {
 
   useEffect(() => {
     if (!query) return;
+    const array = helpers.calcShowsToFetch(query);
+    const response = array.map((show) => sync(show));
+    if (response.includes(false)) return;
 
-    const { show } = query;
-    const response = sync(show);
+    const inner = helpers.applyListFilter({
+      items,
+      query,
+    });
 
-    if (!response) {
-      sync(show);
-      setResult(null);
-      return;
-    }
-
-    setResult(helpers.applyQuery({ items, query }));
+    setResult(validate(inner, schema.list));
   }, [query, items, sync]);
 
   /**
    * @param {object} newQuery
    */
   const change = (newQuery) => {
-    const newQueryKey = helpers.createListQueryKey(newQuery);
-    const currentQueryKey = helpers.createListQueryKey(query);
-    if (newQueryKey === currentQueryKey) return;
-
-    setQuery((current) =>
-      validate({ ...current, ...newQuery }, schema.queries.list),
-    );
+    if (!newQuery) throw new Error("New query is required");
+    const mergedQuery = { ...(query || {}), ...newQuery };
+    if (JSON.stringify(mergedQuery) === JSON.stringify(query)) return;
+    setQuery(validate(mergedQuery, schema.queries.list));
   };
 
   return validate(
@@ -139,16 +184,17 @@ const useList = (initial = null) => {
  *
  * If the `episode` property in the store is `undefined` it means that no
  * episodes have been retrieved from the server yet. In that case the hook will
- * simply return `null` and fire a request to the server to retrieve the episodes.
- * Once the episode has been retrieved the matching episode object will be returned.
+ * simply return `null` and fire a request to the server to retrieve the
+ * episodes. Once the episode has been retrieved the matching episode object
+ * will be returned.
  *
- * This hook works almost identical to `useList` but instead of returning an array
- * it simply returns a single show object. For this purpose see the `useList`
- * hook documentation for more details.
+ * This hook works almost identical to `useList` but instead of returning an
+ * array it simply returns a single show object. For this purpose see the
+ * `useList` hook documentation for more details.
  *
  *
  *
- * @param {object | null} [id] - The ID value of the associated episode. This
+ * @param {string} [initial] - The ID value of the associated episode. This
  * corresponds to the `id` property of a single show `item` schema.
  *
  *
@@ -161,14 +207,13 @@ const useSingle = (initial = null) => {
 
   useEffect(() => {
     if (!query) return;
+    const { show } = helpers.convert.toProperties(query);
 
-    if (!items) {
-      const { show } = query;
-      sync(show);
-      return;
-    }
+    const response = sync(show);
+    if (!response) return;
 
-    setResult(helpers.getSingle({ items, query }));
+    const match = helpers.getSingle({ items, id: query });
+    setResult(match);
   }, [query, items, sync]);
 
   /**
@@ -176,7 +221,7 @@ const useSingle = (initial = null) => {
    */
   const change = (newQuery) => {
     if (!newQuery) throw new Error("id is required");
-    if (newQuery.id === query.id && newQuery.show === query.show) return;
+    if (newQuery === query) return;
     setQuery(newQuery);
   };
 
@@ -186,8 +231,52 @@ const useSingle = (initial = null) => {
       query,
       change,
     },
-    schema.results.item,
+    schema.results.single,
   );
 };
 
-export default { useList, useSingle };
+/**
+ *
+ */
+export const usePlayer = () => {
+  const status = useStore(store, (state) => state.player.status);
+  const active = useStore(store, (state) => state.player.id);
+
+  /**
+   *
+   * @param {string} [id]
+   */
+  const toggle = (id) => {
+    if (id === active) {
+      return store.setState({
+        player: {
+          id: active,
+          status: status === "playing" ? "stopped" : "playing",
+        },
+      });
+    }
+
+    return store.setState({
+      player: {
+        id,
+        status: "playing",
+      },
+    });
+  };
+
+  return validate(
+    {
+      id: active,
+      status,
+      toggle,
+    },
+    schema.results.player,
+  );
+};
+
+export default {
+  useList,
+  useSeason,
+  useSingle,
+  usePlayer,
+};

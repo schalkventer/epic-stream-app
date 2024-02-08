@@ -1,15 +1,26 @@
+import { z } from "zod";
+import { uniq } from "lodash";
 import schema from "./episodes.schema";
 import services from "../../services";
 import validate from "../../utils/validate";
 
-/**
- *
- * @param {object} query
- * @returns {string}
- */
-const createListQueryKey = (query) => {
-  const inner = validate(query, schema.queries.list);
-  return `${inner.show}-${inner.season}`;
+const convert = {
+  /**
+   *
+   * @param {object} props
+   * @param {string} props.episode
+   * @param {string} props.show
+   */
+  toId: (props) => `${props.show}_${props.episode}`,
+
+  /**
+   *
+   * @param {string} props
+   */
+  toProperties: (props) => {
+    const [show, episode] = props.split("_").map((inner) => inner.trim());
+    return { show, episode };
+  },
 };
 
 /**
@@ -19,13 +30,8 @@ const createListQueryKey = (query) => {
  */
 const getSingle = (props) => {
   const { id, items } = props;
-  const result = items.find((item) => item.id === id);
-
-  if (!result) {
-    throw new Error(`Show with id "${id}" not found`);
-  }
-
-  return validate(result, schema.item);
+  const result = items.find((inner) => inner.id === id) || false;
+  return validate(result, schema.itemOrFalse);
 };
 
 /**
@@ -37,10 +43,10 @@ const responseToItems = (response) => {
   const result = seasons.map((singleSeason) =>
     singleSeason.episodes.map((singleEpisode) => ({
       ...singleEpisode,
+      id: convert.toId({ show: id, episode: singleEpisode.id }),
       updated: new Date(singleEpisode.date.toString()),
       season: singleSeason.season,
       progress: 0,
-      show: id,
     })),
   );
 
@@ -48,30 +54,56 @@ const responseToItems = (response) => {
 };
 
 /**
- *
  * @param {object} props
- * @param {object} props.items
- * @param {object} props.query
+ * @param {object[]} props.items
+ * @param {string} props.show
+ * @param {number} props.season
  */
-const applyQuery = (props) => {
+const applySeasonFilter = (props) => {
   const items = validate(props.items, schema.list);
-  const query = validate(props.query, schema.queries.list);
+  const { season, show } = props;
 
-  const { season, show } = query;
-
-  const filtered = items.filter((item) => {
-    if (item.show !== show) return false;
-    if (item.season !== season) return false;
-    return true;
+  const result = items.filter((singleItem) => {
+    const { show: inner } = convert.toProperties(singleItem.id);
+    if (inner !== show) return false;
+    return singleItem.season === season;
   });
 
-  const result = filtered.sort((a, b) => a.episode - b.episode);
   return validate(result, schema.list);
 };
 
+/**
+ * @param {object} props
+ * @param {object} props.items
+ * @param {string[]} props.query
+ */
+const applyListFilter = (props) => {
+  const { query } = props;
+  const items = validate(props.items, schema.list);
+  const result = items.map((inner) => query.includes(inner.id));
+  return validate(result.flat(), schema.list);
+};
+
+/**
+ *
+ * @param {string[]} query
+ */
+const calcShowsToFetch = (query) => {
+  const inner = validate(query, schema.queries.list);
+
+  const result = inner.map((single) => {
+    const { show } = convert.toProperties(single);
+    return show;
+  });
+
+  return validate(uniq(result), z.array(z.string()));
+};
+
 export default {
-  createListQueryKey,
   getSingle,
   responseToItems,
-  applyQuery,
+  applySeasonFilter,
+  applyListFilter,
+  calcShowsToFetch,
+  convert,
 };
