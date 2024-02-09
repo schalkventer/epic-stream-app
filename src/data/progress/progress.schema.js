@@ -22,7 +22,7 @@ const percentage = z.number().min(0).max(100);
  * are the progress percentage. Note that if a episode is not in the object (by
  * not having a key) then it is assumed to be at 0% watched.
  */
-const list = z.record(z.string().uuid(), percentage);
+const list = z.record(id, percentage);
 
 /**
  * Various responses that are associated with hooks in the `hooks` file.

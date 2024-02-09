@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import styled from "@emotion/styled";
 import episodes from "../../../data/episodes";
+import progress from "../../../data/progress";
 import schema from "./SingleShow.schema";
 import EpisodePreview from "../../presentation/EpisodePreview";
 
@@ -8,9 +9,27 @@ const Wrapper = styled.div`
   padding-top: 1rem;
 `;
 
-const Item = styled.div`
+const Inner = styled.div`
   margin: 0.5rem 0;
 `;
+
+const Item = (props) => {
+  const { id, image, title, subtitle, description, onClick } = props;
+  const { result: percentage } = progress.hooks.useSingle(id);
+
+  return (
+    <Inner>
+      <EpisodePreview.Component
+        image={image}
+        title={title}
+        subtitle={subtitle}
+        percentage={percentage || 0}
+        description={description}
+        onClick={onClick}
+      />
+    </Inner>
+  );
+};
 
 export const List = (props) => {
   const { show, season } = props;
@@ -39,26 +58,24 @@ export const List = (props) => {
 
   return (
     <Wrapper>
-      {result.map(
-        ({ episode, id: innerId, image, progress, title, description }) => {
-          const subtitle = `S${season.toString().padStart(2, "0")} E${episode.toString().padStart(2, "0")}`;
+      {result.map(({ episode, id: innerId, image, title, description }) => {
+        const subtitle = `S${season.toString().padStart(2, "0")} E${episode.toString().padStart(2, "0")}`;
 
-          return (
-            <Item key={innerId}>
-              <EpisodePreview.Component
-                image={image}
-                title={title}
-                subtitle={subtitle}
-                percentage={progress || 0}
-                description={description}
-                onClick={() => toggle(innerId)}
-              />
-            </Item>
-          );
-        },
-      )}
+        return (
+          <Item
+            key={innerId}
+            id={innerId}
+            image={image}
+            title={title}
+            subtitle={subtitle}
+            description={description}
+            onClick={() => toggle(innerId)}
+          />
+        );
+      })}
     </Wrapper>
   );
 };
 
+Item.propTypes = schema.item;
 List.propTypes = schema.list;

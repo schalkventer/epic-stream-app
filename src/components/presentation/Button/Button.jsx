@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import schema from "./Button.schema";
 import { COLORS } from "../../../constants";
 
@@ -30,23 +30,27 @@ const StyledLink = styled(Link)`
 `;
 
 export const Component = (props) => {
-  const { label, icon, importance = "secondary", action } = props;
+  const { label, icon, importance = "secondary", action, tooltip } = props;
   const handleClick = () => typeof action === "function" && action();
 
   if (typeof action === "string") {
     return (
-      <StyledLink to={action}>
-        <Wrapper importance={importance} icon={icon}>
-          {icon || label}
-        </Wrapper>
-      </StyledLink>
+      <Tooltip title={tooltip || ""}>
+        <StyledLink to={action}>
+          <Wrapper importance={importance} icon={icon}>
+            {icon || label}
+          </Wrapper>
+        </StyledLink>
+      </Tooltip>
     );
   }
 
   return (
-    <Wrapper importance={importance} icon={icon} onClick={handleClick}>
-      {icon || label}
-    </Wrapper>
+    <Tooltip title={tooltip || ""}>
+      <Wrapper importance={importance} icon={icon} onClick={handleClick}>
+        {icon || label}
+      </Wrapper>
+    </Tooltip>
   );
 };
 

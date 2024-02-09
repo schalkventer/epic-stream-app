@@ -19,6 +19,8 @@ const styles = css`
     font-family: "Outfit", sans-serif;
     overflow-y: scroll !important;
     overflow-x: hidden;
+    margin: 0;
+    padding: 0 !important;
   }
 `;
 

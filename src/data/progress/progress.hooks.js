@@ -33,8 +33,16 @@ const useLocal = () => {
   };
 
   const update = (props) => {
-    const { id, percentage } = validate(props, schema.args);
+    const { id, percentage } = props;
+
+    if (!id) throw new Error("id is required");
+
+    if (typeof percentage !== "number") {
+      throw new Error("percentage is required");
+    }
+
     const response = get();
+    console.log(response);
     const result = validate({ ...response, [id]: percentage }, schema.list);
     api.local.setSavedStore({ progress: result });
     return result;

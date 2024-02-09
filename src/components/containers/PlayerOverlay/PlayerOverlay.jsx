@@ -1,6 +1,6 @@
 import episodes from "../../../data/episodes";
 import schema from "./PlayerOverlay.schema";
-import { Inner } from "./PlayerOverlay.Inner";
+import { Wrapper } from "./PlayerOverlay.Wrapper";
 
 export const Component = (props) => {
   const { children } = props;
@@ -9,8 +9,9 @@ export const Component = (props) => {
   return (
     <>
       {children}
+
       {id && (
-        <Inner
+        <Wrapper
           id={id}
           isOpen={status === "playing"}
           toggleOpen={() => toggle(id)}

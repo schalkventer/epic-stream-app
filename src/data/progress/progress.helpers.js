@@ -1,30 +1,11 @@
 const MINUTE_AS_SECONDS = 60;
 const HOUR_AS_SECONDS = MINUTE_AS_SECONDS * 60;
 
-const convertId = {
-  /**
-   *
-   * @param {object} props
-   * @param {string} props.episode
-   * @param {string} props.show
-   */
-  toId: (props) => `${props.show}_${props.episode}`,
-
-  /**
-   *
-   * @param {string} props
-   */
-  toProperties: (props) => {
-    const [show, episode] = props.split("_").map((inner) => inner.trim());
-    return { show, episode };
-  },
-};
-
 /**
  * Various methods that can be used to convert the time values used by
  * `progress`.
  */
-const convertTime = {
+const convert = {
   /**
    * Takes a specific amount of seconds and a total amount of seconds.
    * Calculates the percentage elapsed of the total as percentage (between 0 -
@@ -70,6 +51,5 @@ const convertTime = {
 };
 
 export default {
-  convertTime,
-  convertId,
+  convert,
 };

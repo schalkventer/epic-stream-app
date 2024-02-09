@@ -72,15 +72,15 @@ export const Component = (props) => {
 
         <Start>
           <TextElement importance="inherit" size="m">
-            {progress.helpers.convertTime.toHourString(seconds)}
+            {progress.helpers.convert.toHourString(seconds)}
           </TextElement>
         </Start>
 
-        <ProgressLine percentage={progress} />
+        <ProgressLine percentage={percentage} />
 
         <End>
           <TextElement importance="inherit" size="s">
-            {progress.helpers.convertTime.toHourString(total)}
+            {progress.helpers.convert.toHourString(total)}
           </TextElement>
         </End>
 

@@ -5,6 +5,15 @@ const list = {
   season: p.number,
 };
 
+const item = {
+  id: p.string,
+  image: p.string,
+  title: p.string,
+  subtitle: p.string,
+  description: p.string,
+  onClick: p.func,
+};
+
 const props = {
   id: p.string,
 };
@@ -12,4 +21,5 @@ const props = {
 export default {
   props,
   list,
+  item,
 };

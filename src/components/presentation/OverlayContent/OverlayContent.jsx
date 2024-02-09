@@ -59,7 +59,9 @@ export const Component = (props) => {
             {secondary && (
               <Button
                 label={secondary.label}
+                tooltip={secondary.tooltip}
                 importance="secondary"
+                icon={secondary.icon}
                 action={secondary.action}
               />
             )}
@@ -67,7 +69,9 @@ export const Component = (props) => {
             {primary && (
               <Button
                 label={primary.label}
+                tooltip={primary.tooltip}
                 importance="primary"
+                icon={primary.icon}
                 action={primary.action}
               />
             )}

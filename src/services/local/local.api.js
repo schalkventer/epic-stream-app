@@ -1,4 +1,7 @@
-import { LOCAL_KEY } from "./local.helpers";
+/**
+ *
+ */
+export const LOCAL_KEY = "fedf4b55-4559-4543-a01c-3fe489519738";
 
 /**
  *
@@ -18,5 +21,5 @@ export const setSavedStore = (newState) => {
   const saved = getSavedStore();
 
   const string = JSON.stringify({ ...saved, ...newState });
-  window.localStorage.setItem(string, LOCAL_KEY);
+  window.localStorage.setItem(LOCAL_KEY, string);
 };

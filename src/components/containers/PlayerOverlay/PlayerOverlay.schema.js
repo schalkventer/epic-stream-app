@@ -1,8 +1,16 @@
 import p from "prop-types";
 
-const inner = {
+const wrapper = {
   id: p.string,
   isOpen: p.bool,
+};
+
+const controls = {
+  id: p.string,
+  show: p.string,
+  toggleOpen: p.func,
+  duration: p.number,
+  file: p.string,
 };
 
 const props = {
@@ -10,6 +18,7 @@ const props = {
 };
 
 export default {
-  inner,
+  wrapper,
+  controls,
   props,
 };
