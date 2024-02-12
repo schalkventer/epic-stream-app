@@ -11,7 +11,7 @@ export const schema = z.object({
   shows: shows.list.optional(),
   episodes: episodes.list,
   favourites: favourites.list.optional(),
-  progress: progress.list,
+  progress: progress.list.optional(),
 
   player: z.object({
     id: z.string().uuid().nullable(),

@@ -42,7 +42,6 @@ const useLocal = () => {
     }
 
     const response = get();
-    console.log(response);
     const result = validate({ ...response, [id]: percentage }, schema.list);
     api.local.setSavedStore({ progress: result });
     return result;

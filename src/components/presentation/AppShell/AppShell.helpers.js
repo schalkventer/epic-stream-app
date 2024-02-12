@@ -4,7 +4,7 @@ const BREAKPOINT = "40rem";
 const LINKS = [
   { label: "Featured", url: "/" },
   { label: "Browse", url: "/browse" },
-  // { label: "Account", url: "/account" },
+  { label: "Account", url: "/account" },
 ];
 
 const FILTERS_SIZES = {

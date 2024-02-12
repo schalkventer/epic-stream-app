@@ -164,7 +164,7 @@ const useList = (initial = null) => {
    */
   const change = (newQuery) => {
     if (!newQuery) throw new Error("New query is required");
-    const mergedQuery = { ...(query || {}), ...newQuery };
+    const mergedQuery = [...(query || []), ...newQuery];
     if (JSON.stringify(mergedQuery) === JSON.stringify(query)) return;
     setQuery(validate(mergedQuery, schema.queries.list));
   };

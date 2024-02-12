@@ -9,7 +9,8 @@ const Wrapper = styled.div`
   width: 100%;
   max-width: ${MAIN_CONTENT_WIDTH};
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
+  overflow: hidden;
 
   @media (min-width: 80rem) {
     padding: 0 4rem;
@@ -24,7 +25,11 @@ const Row = styled.div`
   max-width: ${MAIN_CONTENT_WIDTH};
   margin: 0 auto;
   padding: 4rem 0 1rem;
-  height: 8rem;
+  height: 6rem;
+
+  @media (min-width: 80rem) {
+    height: 8rem;
+  }
 `;
 
 const Actions = styled.div`

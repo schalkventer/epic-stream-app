@@ -15,6 +15,7 @@ const styles = css`
 
   body {
     background: ${COLORS.background.dark};
+    width: 100%;
     color: ${COLORS.foreground.medium};
     font-family: "Outfit", sans-serif;
     overflow-y: scroll !important;

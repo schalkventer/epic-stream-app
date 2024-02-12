@@ -44,8 +44,8 @@ export const Controls = (props) => {
       secondary={{
         action: () => toggleFav(id),
         label: "",
-        icon: fav ? <StarOutline /> : <Star />,
-        tooltip: `${fav ? "Add to" : "Remove from"} favourites`,
+        icon: !fav ? <StarOutline /> : <Star />,
+        tooltip: `${!fav ? "Add to" : "Remove from"} favourites`,
       }}
       primary={{ action: toggleOpen, label: "Close" }}
     >

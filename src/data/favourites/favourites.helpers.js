@@ -9,9 +9,10 @@ import validate from "../../utils/validate";
  * @param {object} response
  */
 const responseToList = (response) => {
-  const entries = Object.entries(response).map(([id, added]) => ({
-    [id]: new Date(added),
-  }));
+  const entries = Object.entries(response).map(([id, added]) => [
+    id,
+    new Date(added),
+  ]);
 
   return validate(Object.fromEntries(entries), schema.list);
 };

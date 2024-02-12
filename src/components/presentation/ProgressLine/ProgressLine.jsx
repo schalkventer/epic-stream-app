@@ -14,8 +14,10 @@ const Wrapper = styled.div`
 const Overlay = styled.div`
   height: 100%;
   border-radius: 10px;
-  width: ${({ percentage }) => percentage}%;
+  width: 100%;
+  max-width: ${({ percentage }) => percentage}%;
   background: ${COLORS.accent};
+  transition: max-width 1s linear;
 `;
 
 export const Component = (props) => {

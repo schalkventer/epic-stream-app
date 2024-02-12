@@ -4,14 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "test:eslint": "eslint src/ --ext .js,.jsx",
     "test:vitest": "vitest --root src/",
-    "test": "npm run test:eslint",
+    "test": "npm run test:eslint && npm run test:vitest",
     "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
-    "@anatine/zod-mock": "^3.13.3",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^8.3.1",

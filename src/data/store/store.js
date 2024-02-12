@@ -6,7 +6,7 @@ const createBlank = () =>
     shows: undefined,
     episodes: [],
     favourites: undefined,
-    progress: {},
+    progress: undefined,
 
     player: {
       id: null,
@@ -17,4 +17,4 @@ const createBlank = () =>
 export const store = createStore(createBlank);
 
 // Un-comment for debugging purposes
-// store.subscribe(console.log);
+store.subscribe(console.log);

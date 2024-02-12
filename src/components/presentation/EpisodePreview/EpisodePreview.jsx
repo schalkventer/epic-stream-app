@@ -1,4 +1,5 @@
 import { ButtonBase, Skeleton } from "@mui/material";
+import { Star } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import { COLORS } from "../../../constants";
 import { Component as ProgressLine } from "../ProgressLine";
@@ -30,18 +31,19 @@ const Info = styled.div`
 const Title = styled.div`
   padding: 0.25rem 1rem 0.5rem 0;
   max-width: 30rem;
+  width: 100%;
 `;
 
 const Row = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   padding: 1rem;
+  flex-wrap: wrap;
 
   @media (min-width: 50rem) {
-    flex-direction: row;
     padding: 0 1rem;
     align-items: center;
   }
@@ -68,6 +70,14 @@ const Description = styled.div`
   padding-right: 2rem;
 `;
 
+const IconWrap = styled.div`
+  width: 3rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  color: white;
+`;
+
 export const Placeholder = () => (
   <Wrapper disabled>
     <Row>
@@ -89,7 +99,15 @@ export const Placeholder = () => (
 );
 
 export const Component = (props) => {
-  const { image, title, subtitle, percentage, description, onClick } = props;
+  const {
+    image,
+    title,
+    subtitle,
+    percentage,
+    description,
+    onClick,
+    favourited,
+  } = props;
 
   return (
     <Wrapper onClick={onClick} disabled={!onClick}>
@@ -109,6 +127,10 @@ export const Component = (props) => {
             {subtitle}
           </TextElement.Component>
         </Info>
+
+        <div>
+          <IconWrap>{favourited && <Star />}</IconWrap>
+        </div>
 
         <Description>
           <TextElement.Component size="s" lines={2}>

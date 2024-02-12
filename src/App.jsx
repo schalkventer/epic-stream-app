@@ -3,6 +3,7 @@ import { Routes, Route, useParams, useLocation } from "react-router-dom";
 import { Component as Production } from "./components/environments/Production";
 import { Component as BrowseShows } from "./components/containers/BrowseShows";
 import { Component as SingleShow } from "./components/containers/SingleShow";
+import { Component as FavouritesList } from "./components/containers/FavouritesList";
 import { Component as FeaturedShows } from "./components/containers/FeaturedShows";
 import { Component as PlayerOverlay } from "./components/containers/PlayerOverlay";
 import { Component as AppShell } from "./components/presentation/AppShell";
@@ -46,9 +47,10 @@ export const App = () => (
     <PlayerOverlay>
       <AppShell>
         <Routes>
-          <Route path="/" element={<FeaturedShows />} />
           <Route path="/browse" element={<BrowseShowsWrap />} />
           <Route path="/show/:id" element={<SingleShowWrap />} />
+          <Route path="/account" element={<FavouritesList />} />
+          <Route path="/" element={<FeaturedShows />} />
         </Routes>
       </AppShell>
     </PlayerOverlay>

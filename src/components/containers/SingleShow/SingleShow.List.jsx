@@ -4,6 +4,7 @@ import episodes from "../../../data/episodes";
 import progress from "../../../data/progress";
 import schema from "./SingleShow.schema";
 import EpisodePreview from "../../presentation/EpisodePreview";
+import favourites from "../../../data/favourites";
 
 const Wrapper = styled.div`
   padding-top: 1rem;
@@ -16,6 +17,7 @@ const Inner = styled.div`
 const Item = (props) => {
   const { id, image, title, subtitle, description, onClick } = props;
   const { result: percentage } = progress.hooks.useSingle(id);
+  const { result: fav } = favourites.hooks.useSingle(id);
 
   return (
     <Inner>
@@ -26,6 +28,7 @@ const Item = (props) => {
         percentage={percentage || 0}
         description={description}
         onClick={onClick}
+        favourited={Boolean(fav)}
       />
     </Inner>
   );
