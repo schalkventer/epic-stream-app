@@ -2,10 +2,10 @@ import { useMount } from "react-use";
 import { useState, useContext, useMemo } from "react";
 import { useStore } from "zustand";
 import { store } from "../store";
-import validate from "../../utils/validate";
+import validation from "../../utils/validation";
 import helpers from "./favourites.helpers";
 import schema from "./favourites.schema";
-import services from "../../services";
+import services from "../../services/context";
 
 /**
  * A extremely thin abstraction over the service layer provided by the `context`
@@ -31,12 +31,15 @@ const useLocal = () => {
   const get = () => {
     const { favourites = [] } = api.local.getSavedStore() || {};
     const result = helpers.responseToList(favourites);
-    return validate(result, schema.list);
+    return validation.check(result, schema.list);
   };
 
   const add = (id) => {
     const response = get();
-    const result = validate({ ...response, [id]: new Date() }, schema.list);
+    const result = validation.check(
+      { ...response, [id]: new Date() },
+      schema.list,
+    );
     api.local.setSavedStore({ favourites: result });
     return result;
   };
@@ -45,7 +48,7 @@ const useLocal = () => {
     const response = get();
 
     const entries = Object.entries(response).filter(([key]) => key !== id);
-    const result = validate(Object.fromEntries(entries), schema.list);
+    const result = validation.check(Object.fromEntries(entries), schema.list);
 
     api.local.setSavedStore({ favourites: result });
     return result;
@@ -99,7 +102,7 @@ const useSync = () => {
 const useList = () => {
   useSync();
   const items = useStore(store, (state) => state.favourites);
-  return validate(items || null, schema.results.list);
+  return validation.check(items || null, schema.results.list);
 };
 
 /**
@@ -142,7 +145,7 @@ const useSingle = (initial = null) => {
     setQuery(newQuery);
   };
 
-  return validate(
+  return validation.check(
     {
       query,
       change,

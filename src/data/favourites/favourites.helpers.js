@@ -1,5 +1,5 @@
 import schema from "./favourites.schema";
-import validate from "../../utils/validate";
+import validation from "../../utils/validation";
 
 /**
  * Takes the response created with JSON.parse and maps over it to turn the
@@ -14,7 +14,7 @@ const responseToList = (response) => {
     new Date(added),
   ]);
 
-  return validate(Object.fromEntries(entries), schema.list);
+  return validation.check(Object.fromEntries(entries), schema.list);
 };
 
 /**

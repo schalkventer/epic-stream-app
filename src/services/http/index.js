@@ -1,4 +1,4 @@
-import { getFullShow, getPreviews } from "./http.api";
+import { getFullShow, getPreviews } from "./http";
 import { fullShow, preview } from "./http.schema";
 
 export default {

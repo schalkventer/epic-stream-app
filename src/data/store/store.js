@@ -17,4 +17,4 @@ const createBlank = () =>
 export const store = createStore(createBlank);
 
 // Un-comment for debugging purposes
-store.subscribe(console.log);
+// store.subscribe(console.log);

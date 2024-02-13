@@ -3,8 +3,8 @@ import { useStore } from "zustand";
 import { store } from "../store";
 import helpers from "./shows.helpers";
 import schema from "./shows.schema";
-import validate from "../../utils/validate";
-import services from "../../services";
+import validation from "../../utils/validation";
+import services from "../../services/context";
 
 /**
  *
@@ -80,7 +80,7 @@ const useList = (initial = null) => {
   const [result, setResult] = useState(null);
 
   const [query, setQuery] = useState(
-    initial && validate(initial, schema.queries.list),
+    initial && validation.check(initial, schema.queries.list),
   );
 
   useEffect(() => {
@@ -103,11 +103,11 @@ const useList = (initial = null) => {
     if (newQueryKey === currentQueryKey) return;
 
     setQuery((current) =>
-      validate({ ...current, ...newQuery }, schema.queries.list),
+      validation.check({ ...current, ...newQuery }, schema.queries.list),
     );
   };
 
-  return validate(
+  return validation.check(
     {
       result,
       query,
@@ -158,7 +158,7 @@ const useSingle = (initial = null) => {
     setId(newId);
   };
 
-  return validate(
+  return validation.check(
     {
       result,
       id,

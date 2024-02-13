@@ -2,9 +2,9 @@ import { useMount } from "react-use";
 import { useState, useContext, useMemo, useRef } from "react";
 import { useStore } from "zustand";
 import { store } from "../store";
-import validate from "../../utils/validate";
+import validation from "../../utils/validation";
 import schema from "./progress.schema";
-import services from "../../services";
+import services from "../../services/context";
 
 /**
  * A extremely thin abstraction over the service layer provided by the `context`
@@ -29,7 +29,7 @@ const useLocal = () => {
 
   const get = () => {
     const { progress = {} } = api.local.getSavedStore() || {};
-    return validate(progress, schema.list);
+    return validation.check(progress, schema.list);
   };
 
   const update = (props) => {
@@ -42,7 +42,10 @@ const useLocal = () => {
     }
 
     const response = get();
-    const result = validate({ ...response, [id]: percentage }, schema.list);
+    const result = validation.check(
+      { ...response, [id]: percentage },
+      schema.list,
+    );
     api.local.setSavedStore({ progress: result });
     return result;
   };
@@ -119,7 +122,7 @@ const useSingle = (initial = null) => {
     setQuery(newQuery);
   };
 
-  return validate(
+  return validation.check(
     {
       result,
       query,

@@ -1,13 +1,13 @@
 import schema from "./shows.schema";
-import services from "../../services";
-import validate from "../../utils/validate";
+import services from "../../services/context";
+import validation from "../../utils/validation";
 import { filters } from "./shows.helpers.filters";
 
 /**
  * The basic query used when the the "browse" page is first loaded without any
  * filters. Effectively, returns all available shows in alphabetical order.
  */
-const BLANK_QUERY = validate(
+const BLANK_QUERY = validation.check(
   {
     limit: 0,
     search: "",
@@ -28,7 +28,7 @@ const BLANK_QUERY = validate(
  * @returns {string}
  */
 const createListQueryKey = (query) => {
-  const inner = validate(query, schema.queries.list);
+  const inner = validation.check(query, schema.queries.list);
   return `${inner.limit}-${inner.search}-${inner.genre}-${inner.sorting}`;
 };
 
@@ -50,7 +50,7 @@ const getSingle = (props) => {
     throw new Error(`Show with id "${id}" not found`);
   }
 
-  return validate(result, schema.item);
+  return validation.check(result, schema.item);
 };
 
 /**
@@ -67,8 +67,8 @@ const getSingle = (props) => {
  * @param {object} props.query
  */
 const applyListQuery = (props) => {
-  const items = validate(props.items, schema.list);
-  const query = validate(props.query, schema.queries.list);
+  const items = validation.check(props.items, schema.list);
+  const query = validation.check(props.query, schema.queries.list);
 
   const { search, genre, sorting, limit } = query;
 
@@ -80,7 +80,7 @@ const applyListQuery = (props) => {
   ];
 
   const result = operations.reduce((current, fn) => fn(current), items);
-  return validate(result, schema.list);
+  return validation.check(result, schema.list);
 };
 
 /**
@@ -93,7 +93,7 @@ const applyListQuery = (props) => {
  */
 const convertNumberToGenre = (number) => {
   const result = schema.genre.options[number - 1];
-  return validate(result, schema.genre);
+  return validation.check(result, schema.genre);
 };
 
 /**
@@ -109,7 +109,7 @@ const convertNumberToGenre = (number) => {
  */
 const responseToItems = (response) => {
   const result = response.map((singlePreview) => {
-    const inner = validate(singlePreview, services.schema.preview);
+    const inner = validation.check(singlePreview, services.schema.preview);
 
     return {
       ...inner,
@@ -118,7 +118,7 @@ const responseToItems = (response) => {
     };
   });
 
-  return validate(result, schema.list);
+  return validation.check(result, schema.list);
 };
 
 export default {

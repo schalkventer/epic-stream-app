@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { uniq } from "lodash";
 import schema from "./episodes.schema";
-import services from "../../services";
-import validate from "../../utils/validate";
+import services from "../../services/context";
+import validation from "../../utils/validation";
 
 const convert = {
   /**
@@ -31,14 +31,14 @@ const convert = {
 const getSingle = (props) => {
   const { id, items } = props;
   const result = items.find((inner) => inner.id === id) || false;
-  return validate(result, schema.itemOrFalse);
+  return validation.check(result, schema.itemOrFalse);
 };
 
 /**
  * @param {object} response
  */
 const responseToItems = (response) => {
-  const { id, seasons } = validate(response, services.schema.show);
+  const { id, seasons } = validation.check(response, services.schema.show);
 
   const result = seasons.map((singleSeason) =>
     singleSeason.episodes.map((singleEpisode) => ({
@@ -50,7 +50,7 @@ const responseToItems = (response) => {
     })),
   );
 
-  return validate(result.flat(), schema.list);
+  return validation.check(result.flat(), schema.list);
 };
 
 /**
@@ -60,7 +60,7 @@ const responseToItems = (response) => {
  * @param {number} props.season
  */
 const applySeasonFilter = (props) => {
-  const items = validate(props.items, schema.list);
+  const items = validation.check(props.items, schema.list);
   const { season, show } = props;
 
   const result = items.filter((singleItem) => {
@@ -69,7 +69,7 @@ const applySeasonFilter = (props) => {
     return singleItem.season === season;
   });
 
-  return validate(result, schema.list);
+  return validation.check(result, schema.list);
 };
 
 /**
@@ -79,9 +79,9 @@ const applySeasonFilter = (props) => {
  */
 const applyListFilter = (props) => {
   const { query } = props;
-  const items = validate(props.items, schema.list);
-  const result = items.map((inner) => query.includes(inner.id));
-  return validate(result.flat(), schema.list);
+  const items = validation.check(props.items, schema.list);
+  const result = items.filter((inner) => query.includes(inner.id));
+  return validation.check(result.flat(), schema.list);
 };
 
 /**
@@ -89,14 +89,14 @@ const applyListFilter = (props) => {
  * @param {string[]} query
  */
 const calcShowsToFetch = (query) => {
-  const inner = validate(query, schema.queries.list);
+  const inner = validation.check(query, schema.queries.list);
 
   const result = inner.map((single) => {
     const { show } = convert.toProperties(single);
     return show;
   });
 
-  return validate(uniq(result), z.array(z.string()));
+  return validation.check(uniq(result), z.array(z.string()));
 };
 
 export default {

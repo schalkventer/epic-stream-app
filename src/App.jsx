@@ -1,12 +1,12 @@
 import url from "query-string";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
-import { Component as Production } from "./components/environments/Production";
-import { Component as BrowseShows } from "./components/containers/BrowseShows";
-import { Component as SingleShow } from "./components/containers/SingleShow";
-import { Component as FavouritesList } from "./components/containers/FavouritesList";
-import { Component as FeaturedShows } from "./components/containers/FeaturedShows";
-import { Component as PlayerOverlay } from "./components/containers/PlayerOverlay";
-import { Component as AppShell } from "./components/presentation/AppShell";
+import { Component as Production } from "./environments/Production";
+import { Component as BrowseShows } from "./containers/BrowseShows";
+import { Component as SingleShow } from "./containers/SingleShow";
+import { Component as FavouritesList } from "./containers/FavouritesList";
+import { Component as FeaturedShows } from "./containers/FeaturedShows";
+import { Component as PlayerOverlay } from "./containers/PlayerOverlay";
+import { Component as AppShell } from "./presentation/AppShell";
 
 /**
  * A wrapper around the `SingleShow` that intercepts and passes specific

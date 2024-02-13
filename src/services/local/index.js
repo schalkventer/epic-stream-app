@@ -1,4 +1,4 @@
-import { getSavedStore, setSavedStore } from "./local.api";
+import { getSavedStore, setSavedStore } from "./local";
 
 export default {
   api: {

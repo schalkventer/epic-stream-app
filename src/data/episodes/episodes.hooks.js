@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext, useMemo } from "react";
 import { useStore } from "zustand";
 import { store } from "../store";
-import validate from "../../utils/validate";
+import validation from "../../utils/validation";
 import helpers from "./episodes.helpers";
 import schema from "./episodes.schema";
-import services from "../../services";
+import services from "../../services/context";
 
 /**
  * A globally shared array used to determine whether a show has been requested
@@ -113,7 +113,7 @@ const useSeason = (initial = null) => {
       season,
     });
 
-    setResult(validate(inner, schema.list));
+    setResult(validation.check(inner, schema.list));
   }, [query, items, sync]);
 
   /**
@@ -123,10 +123,10 @@ const useSeason = (initial = null) => {
     if (!newQuery) throw new Error("New query value is required");
     const mergedQuery = { ...(query || {}), ...newQuery };
     if (JSON.stringify(mergedQuery) === JSON.stringify(query)) return;
-    setQuery(validate(mergedQuery, schema.queries.season));
+    setQuery(validation.check(mergedQuery, schema.queries.season));
   };
 
-  return validate(
+  return validation.check(
     {
       result,
       query,
@@ -156,7 +156,7 @@ const useList = (initial = null) => {
       query,
     });
 
-    setResult(validate(inner, schema.list));
+    setResult(validation.check(inner, schema.list));
   }, [query, items, sync]);
 
   /**
@@ -166,10 +166,10 @@ const useList = (initial = null) => {
     if (!newQuery) throw new Error("New query is required");
     const mergedQuery = [...(query || []), ...newQuery];
     if (JSON.stringify(mergedQuery) === JSON.stringify(query)) return;
-    setQuery(validate(mergedQuery, schema.queries.list));
+    setQuery(validation.check(mergedQuery, schema.queries.list));
   };
 
-  return validate(
+  return validation.check(
     {
       result,
       query,
@@ -225,7 +225,7 @@ const useSingle = (initial = null) => {
     setQuery(newQuery);
   };
 
-  return validate(
+  return validation.check(
     {
       result,
       query,
@@ -264,7 +264,7 @@ export const usePlayer = () => {
     });
   };
 
-  return validate(
+  return validation.check(
     {
       id: active,
       status,
