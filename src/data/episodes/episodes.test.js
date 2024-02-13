@@ -51,7 +51,7 @@ test("useSingle", async () => {
   expect(condition).toBe(true);
 });
 
-test.only("useList", async () => {
+test("useList", async () => {
   const { result } = renderHook(
     () =>
       hooks.useList([
