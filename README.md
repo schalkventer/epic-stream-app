@@ -18,15 +18,17 @@
 - [🏡 Architecture](#-architecture)
   - [Folders](#folders)
     - [Presentation](#presentation)
-    - [Container](#container)
-    - [Environments](#environments)
+    - [Containers](#containers)
+    - [Services](#services)
+    - [Data](#data-1)
+    - [Utils](#utils)
   - [Overview](#overview)
 - [🍱 Modules](#-modules)
   - [Modules](#modules)
     - [Barrel Files](#barrel-files)
   - [🤖 Technologies](#-technologies)
   - [Presentation](#presentation-1)
-  - [Containers](#containers)
+  - [Containers](#containers-1)
 - [User Stories](#user-stories)
 
 
@@ -130,13 +132,22 @@ _Note that the first two folders ("presentation" and "containers") are based on 
 
 React components that are exclusively responsible for rendering HTML based on a specific state. These are deterministic insofar that given the same props they should always behave in the same way.
 
-#### Container
+#### Containers
 
 These are React components that manage the relationship between the internal store data and the presentational components. Note that these are allowed to render HTML, however it is recommended that as far as possible as much rendering as possible be pushed to `presentation` components.
 
-#### Environments
+#### Services
 
 A very basic abstraction that allows is used to manage [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). Effectively there are only two mutually exclusive React components that can be used: `Testing` and `Production`. One of these should always be the top-most parent component wrapping all other components in the app. If the code is meant to be used by real users then the `Production` component should be used. Whereas, if the code is meant to be tested the `Testing` component should be used. This pattern means that services can be forced to behave in a certain way to test specific scenarios, and it decouples testing from production data - meaning that tests won't even change the actual data being shown to users accidentally.
+
+#### Data
+
+...
+
+
+#### Utils
+
+...
 
 ### Overview
 
@@ -197,13 +208,6 @@ You will note that all folders contain an `index.js` file. This is known as a [b
 Also note that due to the way that the `Vite` 
 
 
-
-
-The entire codebase is made up of [modules](https://en.wikipedia.org/wiki/Module_pattern) at the lowest level. These modules are controlled and encapsulated by means of using ES Module exports. 
-
-The codebase is broad split into the following three categories, each with their own root folder in `/src`:
-
-
 ### 🤖 Technologies
 
 ### Presentation
@@ -248,7 +252,7 @@ Most technologies in the container layer are concerned with connecting the persi
 
 - [x]  User sees the name of all available shows on the platform
 - [x] User sees shows broken down into seasons, sorted by number
-- [ ] User has a way to listen to any episode in a season for a show
+- [x] User has a way to listen to any episode in a season for a show
 - [x] User is able to see a view where only episodes for a specific selected season is shown
 - [x] User is able to toggle between different seasons for the same show
 
@@ -261,17 +265,17 @@ Most technologies in the container layer are concerned with connecting the persi
 
 ---
 
-- [ ] User sees a preview image of seasons for specific show
+- ~User sees a preview image of seasons for specific show~
 - [x] User sees the amount of episodes as number for a season
 - [x] User are able to go back to a show view from an season-specific view
 
 ---
 
-- [ ] User is able to mark specific episodes as favourites so that they can find them again
+- [x] User is able to mark specific episodes as favourites so that they can find them again
 - [ ] User can visit a view where they see all their favourites
 - [ ] User is able to see the associated show and season when episode in favourite
 - [ ] Related by season/show episodes are grouped together in favourites
-- [ ] User is able able to remove episodes from their favourites
+- [x] User is able able to remove episodes from their favourites~
 
 ---
 
@@ -292,7 +296,7 @@ Most technologies in the container layer are concerned with connecting the persi
 
 ---
 
-- [ ] Audio player is always visible so that user can listen to episodes while I browse
+- [x] Audio player is always visible so that user can listen to episodes while I browse
 - [ ] User receives a notification that confirms they want to close the page when audio is playing
 - [ ] App remembers what shows and episode user listened to last when returning to the platform
 - [x] Automatically filters shows by a genre if the genre label is clicked on
