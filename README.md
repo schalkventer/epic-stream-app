@@ -1,5 +1,9 @@
 <!-- omit in toc -->
-# 📺 Epic Stream App
+# 📺 Epic Stream App 
+
+![](https://github.com/github/docs/actions/workflows/nodejs.yml/badge.svg) ![](https://therealsujitk-vercel-badge.vercel.app/?app=epic-stream-example&logo=&label=deployment)
+
+---
 
 ![](https://www.epic-stream.co.za/meta/preview-wide.png)
 
