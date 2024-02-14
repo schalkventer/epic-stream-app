@@ -1,6 +1,6 @@
 import url from "query-string";
 import { Routes, Route, useParams, useLocation } from "react-router-dom";
-import { Component as Production } from "./environments/Production";
+import { Component as Production } from "./services/Production";
 import { Component as BrowseShows } from "./containers/BrowseShows";
 import { Component as SingleShow } from "./containers/SingleShow";
 import { Component as FavouritesList } from "./containers/FavouritesList";

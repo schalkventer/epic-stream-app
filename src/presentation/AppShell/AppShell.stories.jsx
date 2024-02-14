@@ -1,6 +1,6 @@
 import { Component } from "./AppShell";
 import { PageFilters } from "./AppShell.PageFilters";
-import { Component as Testing } from "../../environments/Testing";
+import { Component as Testing } from "../../services/Testing";
 
 export default {
   title: "components/AppShell",

@@ -1,5 +1,5 @@
 import { Component, Placeholder } from "./ShowDetails";
-import { Component as Testing } from "../../environments/Testing";
+import { Component as Testing } from "../../services/Testing";
 
 export default {
   title: "components/ShowDetails",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Component } from "./UserEntry";
-import { Component as Testing } from "../../environments/Testing";
+import { Component as Testing } from "../../services/Testing";
 
 export default {
   title: "components/UserEntry",

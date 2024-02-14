@@ -1,6 +1,6 @@
 import { createElement, Fragment } from "react";
 import { MemoryRouter } from "react-router-dom";
-import services from "../../services/context";
+import services from "../context";
 
 /**
  * @param {object} param

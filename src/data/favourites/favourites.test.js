@@ -1,6 +1,6 @@
 import { test, expect, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { Component } from "../../environments/Testing";
+import { Component } from "../../services/Testing";
 import hooks from "./favourites.hooks";
 
 test("useList + useToggle + useClear", async () => {

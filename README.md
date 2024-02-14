@@ -19,9 +19,8 @@
   - [Folders](#folders)
     - [Presentation](#presentation)
     - [Containers](#containers)
-    - [Services](#services)
     - [Data](#data-1)
-    - [Utils](#utils)
+    - [Services](#services)
   - [Overview](#overview)
 - [🍱 Modules](#-modules)
   - [Modules](#modules)
@@ -114,11 +113,12 @@ For this reason, it is recommended that you install the [ESLint extension](https
 
 ## 🏡 Architecture
 
-In accordance with the principles of [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) the codebase is broadly split into three domains, each coinciding with one or more folders in the `/src` directory:
+In accordance with the principles of [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) the codebase is broadly split into four domains, each coinciding with a folder in the `/src` directory:
 
 - Presentation: `src/components`
-- Containers: `src/data`,and `src/containers`
-- Services: `src/services` and `src/environments` 
+- Containers: `src/containers`
+- Data: `src/data`
+- Services: `src/services`
 
 While, not a traditional [Model-view-viewmodel (MVVM)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) architecture, it is broadly inspired by the MVVM approach. The key consideration is that the presentation components are not allowed to talk directly to external data sources. This decoupling means that various parts of the codebase can be debugged and testing in isolation. 
 
@@ -130,24 +130,20 @@ _Note that the first two folders ("presentation" and "containers") are based on 
 
 #### Presentation
 
-React components that are exclusively responsible for rendering HTML based on a specific state. These are deterministic insofar that given the same props they should always behave in the same way.
+React components that are exclusively responsible for rendering HTML based on a specific state internal state or provided props. These components should be deterministic insofar that given the same props they should always behave in the same way.
 
 #### Containers
 
-These are React components that manage the relationship between the internal store data and the presentational components. Note that these are allowed to render HTML, however it is recommended that as far as possible as much rendering as possible be pushed to `presentation` components.
-
-#### Services
-
-A very basic abstraction that allows is used to manage [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). Effectively there are only two mutually exclusive React components that can be used: `Testing` and `Production`. One of these should always be the top-most parent component wrapping all other components in the app. If the code is meant to be used by real users then the `Production` component should be used. Whereas, if the code is meant to be tested the `Testing` component should be used. This pattern means that services can be forced to behave in a certain way to test specific scenarios, and it decouples testing from production data - meaning that tests won't even change the actual data being shown to users accidentally.
+These are React components that manage the relationship between the internal store `Data` and the presentational components. Note that these are (similar to `Presentation`) allowed to render HTML, however it is recommended that as far as possible as much rendering as possible be pushed to `presentation` components.
 
 #### Data
 
-...
+The data folder is responsible for internal modelling the core data shown to users by means of components. Due to limited scope of this project all global app state is exclusively located in a single [Zustand](https://zustand.surge.sh/) store (`src/data/store.js`). This store is intentionally decoupled from the actual React hooks that act on it. The latter ensure that reactivity and re-rendering can more easily be controlled.
 
+#### Services
 
-#### Utils
+A very basic abstraction over the React Context API that is used to manage [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). Effectively there are two mutually exclusive React components within `services`: `Testing` and `Production`. One of these should always be the top-most parent component wrapping all other components in the app. If the code is meant to be used by real users then the `Production` component should be used. Whereas, if the code is meant to be tested the `Testing` component should be used. This pattern means that services can be forced to behave in a certain way to test specific scenarios, and it decouples testing from production data - meaning that tests won't even change the actual data being shown to users accidentally. All other folders in `services` are in service of providing `Production` and `Testing` with their required data.
 
-...
 
 ### Overview
 

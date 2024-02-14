@@ -1,4 +1,4 @@
-import { Component as Testing } from "../../environments/Testing";
+import { Component as Testing } from "../../services/Testing";
 import { Component } from "./SingleShow";
 
 export default {

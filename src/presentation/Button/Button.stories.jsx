@@ -1,6 +1,6 @@
 import { Close } from "@mui/icons-material";
 import { Component } from "./Button";
-import { Component as Testing } from "../../environments/Testing";
+import { Component as Testing } from "../../services/Testing";
 
 export default {
   title: "components/Button",

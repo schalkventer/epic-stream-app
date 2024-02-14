@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Component } from "./TextElement";
-import { Component as Testing } from "../../environments/Testing";
+import { Component as Testing } from "../../services/Testing";
 
 export default {
   title: "components/TextElement",

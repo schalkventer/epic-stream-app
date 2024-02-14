@@ -6,7 +6,7 @@ import schema from "./Production.schema";
 import { Component as TextElement } from "../../presentation/TextElement";
 import { Component as OverlayContent } from "../../presentation/OverlayContent";
 import { Component as Base } from "../../presentation/Base";
-import services from "../../services/context";
+import services from "../context";
 
 const Content = styled.div`
   padding: 2rem;

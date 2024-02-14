@@ -1,6 +1,6 @@
 import { test, expect, vi } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { createProvider } from "../../environments/Testing";
+import { createProvider } from "../../services/Testing";
 import hooks from "./episodes.hooks";
 
 test("useSeason", async () => {
