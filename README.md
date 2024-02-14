@@ -25,6 +25,10 @@
 - [🍱 Modules](#-modules)
   - [Modules](#modules)
     - [Barrel Files](#barrel-files)
+  - [Helper Files](#helper-files)
+  - [Schema Files](#schema-files)
+  - [Test Files](#test-files)
+  - [Sub-module Files](#sub-module-files)
   - [🤖 Technologies](#-technologies)
   - [Presentation](#presentation-1)
   - [Containers](#containers-1)
@@ -201,8 +205,21 @@ category/
 
 You will note that all folders contain an `index.js` file. This is known as a [barrel file](https://flaming.codes/en/posts/barrel-files-in-javascript/). It should be the only thing that is ever imported directly from outside of the folder itself. This is the primary point of encapsulation of modules.
 
-Also note that due to the way that the `Vite` 
+### Helper Files
 
+...
+
+### Schema Files
+
+...
+
+### Test Files
+
+...
+
+### Sub-module Files
+
+...
 
 ### 🤖 Technologies
 
