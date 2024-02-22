@@ -10,7 +10,9 @@
 <!-- omit in toc -->
 ## Table of Contents
 
-- [🐦 Overview](#-overview)
+- [🎯 Goals](#-goals)
+  - [Structure](#structure)
+  - [Considerations](#considerations)
 - [🚀 Getting Started](#-getting-started)
   - [Production](#production)
   - [Local](#local)
@@ -38,41 +40,60 @@
   - [Containers](#containers-1)
 - [User Stories](#user-stories)
 
+## 🎯 Goals
 
-## 🐦 Overview
+This an example of a video streaming service built with React.
 
-The goal of this repo is to provide a concrete example of how a modern software product, subject to the forces and concerns of real-world usage, might be composed.
+It aims to provide a concrete example of how a modern Single Page App (SPA) might be architected in response to the forces and concerns that act on real-world products.
 
-While it is relatively easy to build a basic throwaway to-do or basic app in React, these often present a distorted view of what software development is like for juniors entering the industry:
+The primarily goal is to illustrate the process of figuring out where code, files and folders are placed in a project, and how the following practices/processes guide these decisions:
 
-- It is almost unthinkable that a junior or new member joining a team will be given the freedom to start a new project straight from `git init`.
-- More often than not, juniors spend the first parts of their career helping with debugging, documenting features, and/or making minor changes to existing codebases like this.
-- By definition, when a team has enough funding to hire juniors, there is already a long history and a lot of legacy code that a junior has to work with.
+- [Abstraction](https://en.wikipedia.org/wiki/Abstraction_(computer_science))
+- [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns)
+- [Encapsulation](https://en.wikipedia.org/wiki/Encapsulation_(computer_programming))
+- [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science))
+- [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection)
+- [State Machines](https://en.wikipedia.org/wiki/Finite-state_machine)
 
-While building small projects in isolation is helpful in terms of understanding the fundamentals and syntax of JavaScript and tools like React, they leave out a large part of what day-to-day software development as a job actually entails.
+It also assumes that any real-world project of meaningful complexity will strive to implement some degree of [Data Validation](https://en.wikipedia.org/wiki/Data_validation) and [Automated Testing](https://en.wikipedia.org/wiki/Test_automation). Therefore, the pursuit of validate and testing of data/code plays an important role in architectural decision made.
 
-The hope is that this project provides a taste of how existing code and complexity in a project might look, that broader software principles like encapsulation, abstraction, automated testing, and documentation can be understood without getting overwhelmed with the scale of the project.
+### Structure
 
-For this reason, some parts of the project can be considered over-engineered. However, as stated, the goal is to introduce enough complexity to illustrate the values of the latter principles without being overwhelming in terms of subject domain and scope of work.
+The unfortunate reality is that there is no "one-size-fits-all" approach structuring code, files and folders. Architectural decisions are almost always made against specific business considerations or pre-existing technical constraints. In the words of Robert C. Martin:
 
-Before starting, it is also important to note that this is simply one way in which the complexity and concerns of the product can be approached. In modern software, there is very little universal consensus on the "correct" way to do software.
+> “Any organisation that designs a system will produce a design whose structure is a copy of the organisation's communication structure”
+>
+> - Clean Architecture (2017)
 
-For this reason, it is important that you proactively seek out areas where you disagree with the approach and attempt to formulate why you disagree. The **primary skill** of software development is being able to talk about your reasoning process and discuss decisions made by others. It is inevitable that you will join a team when applying for a job that has very different preferences and ideas than you do (and even amongst one another).
+The critical implication is that every single team will have a unique project structure that is a reflection of the specific business, internal processes, technical and personal dynamics that exist within a team. Treating the question of where code, files and folders go as a pre-decided answer is more harmful to your career than helpful.
 
-This means that the following are things dangers that will damage your career prospects more than any specific technologies you learn:
+Instead of searching for a universal answer you should instead focus on growing your ability to understand, discuss and reason about the implications of these decisions. You will spend the vast majority of your career working on existing codebases, and very little (if at all) time creating brand new code from an entirely blank slate.
 
-- The inability to talk about the decisions you made beyond "it just felt right" or "it is the only way I could get it to work." No code is "good" in a vacuum; it is based on the reasoning behind it and what problems it attempts to solve.
-- The ability to understand why an alternative approach might be taken or preferred, as a means to contribute to code that is not how you would personally have done it. Even if you are replacing this code with your own approach, you need to understand the underlying logic first.
+It is also from this perspective that this project is presented as an existing solution that can be reverse-engineered instead of a paint-by-numbers, step-by-step, guided tutorial.
+
+### Considerations
+
+To illustrate this principle, a common dynamic is introduced into this example:
+
+The data exposed by means of the API does not map directly to what would make sense in terms of user experience. This is generally the first architectural decision you face when working on anything user-facing. To what degree will you adhere to the existing data model, versus to what degree will you re-model the data to better suit the user experience?
+
+Depending on this answer, even using React itself might be a good fit or overkill. This means that decisions in terms of where code, files and folders go are already influenced before the first line of code is written.
+
+In our case, we assume that the business has decided that they want to invest considerably resources into providing a seamless user experience when it comes to loading states, filtering, sorting. Furthermore, a decision was also made in the interest of scale and cost that instead of managing user accounts on a remote database that user-specific information will instead be persisted on the device itself.
+
+Given the above considerations, a Single Page App (SPA) is a good fit for the project. While React is not the only (nor necessarily the best) tool to maintain a SPA, it has been decided on due to the immense popularity of React at the time. In terms of business considerations, this means that it will be easier hiring new developers and find third-party tooling that can be integrated into the codebase.
+
+It is important to note that a lot of aspects of the project are over-engineered, while the scope of functionality is kept extremely limited. This is an intentional decision to aid in the goals of this project primarily serving as a teaching tool. This means that some of the initial concepts at the top of this document are deliberately exaggerated to illustrate them in a smaller, more tightly-scoped environment.
 
 ## 🚀 Getting Started
 
 ### Production
 
-No manual deployment processes are required beyond pushing committed code directly to the `master` branch.
+No manual deployment processes are required beyond committing code directly to the `master` branch.
 
-The app is automatically deployed to Vercel at [https://epic-stream.co.za](https://epic-stream-example.vercel.app/) based on updates to the `master` branch.
+The app is automatically deployed to Vercel at [https://epic-stream.co.za](https://epic-stream.co.za) based on updates to the `master` branch.
 
-Note that `npm test` runs as a Github action automatically before deployment. If the tests fail, then the new deployment is automatically aborted.
+Note that `npm test` runs as a Github action automatically before deployment. If the tests fail, then the deployment of new code is automatically aborted.
 
 ### Local
 
@@ -84,15 +105,15 @@ Note that `npm test` runs as a Github action automatically before deployment. If
 
 ### Data
 
-The core data consumed by the app is deployed to a separate URL at https://epic-stream-api.netlify.app. It exposes several JSON-based endpoints in a RESTful manner (only supporting GET currently).
+The core data consumed by the app is deployed to a separate URL at https://epic-stream-api.netlify.app. It exposes several JSON-based endpoints in a RESTful manner (only supporting GET currently). For more details on the API and how to use it, please read the documentation at [https://github.com/schalkventer/epic-stream-api](https://github.com/schalkventer/epic-stream-api).
 
-For more details on the API and how to use it, please read the documentation at [https://github.com/schalkventer/epic-stream-api](https://github.com/schalkventer/epic-stream-api).
+Note that as mentioned initial, the structure of the data exposed by the API is intentionally not directly mapped to what would make sense in terms of user experience. Not only is it considered bad practice to directly couple your data to user interface considerations, but this "problem" is also the motivation for using a React and creating an SPA in the first place. 
 
 ### Testing
 
 This project broadly adheres to the principles of [Test-Driven Development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development). This effectively means that all code is written in a manner that makes it more easily testable, even if it requires additional complexity or abstractions within the code/architecture itself.
 
-Note that this does not mean that all code needs to be tested, especially if it is trivial and/or likely to change often. However, it does mean that testing is what "drives" development decisions. In other words, whether code is tested or not, the code should be written in a manner that makes it testable should you wish to do so.
+Note that this [does not mean that all code needs to be tested](https://labs.ig.com/code-coverage-100-percent-tragedy), especially if it is trivial and/or likely to change often. However, it does mean that testing is what "drives" (i.e. "driven") development decisions. In other words, whether code is tested or not, the code should be written in a manner that makes it testable should you wish to do so.
 
 #### Storybook
 
@@ -102,12 +123,13 @@ Please run `npm run test:storybook` in the project root to start the Storybook s
 
 #### Automated Tests
 
-Note that JSX files can only be tested by Storybook; all traditional `.js` files should be tested using automated tests. The two types of tests that can be used are as follows:
+Note that JSX files primarily be tested interactively in Storybook. However, all automated testing is done by means if [Vitest](https://vitest.dev/). These include the following types:
 
-- [Unit tests](https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing) should be used to test deterministic JavaScript helper functions.
-- [Integration tests](https://www.atlassian.com/continuous-delivery/software-testing/types-of-software-testing) should be created for state-heavy React hooks.
+- Snapshot Tests: Presentation logic from Storybook can be tested for visual regressions by means of Vitest's snapshot testing.
+- Unit Tests: Deterministic JavaScript helper functions can be tested directly with pre-defined input and output fixtures.
+- Integration Tests: Should be used for state-heavy React hooks that directly interface with the global Zustand store.
 
-Both of these should be created and maintained using the [Vitest testing framework](https://vitest.dev/) and run by means of `npm test:vitest`.
+All the above can be run by means of `npm test:vitest`.
 
 #### Linting
 
@@ -121,14 +143,14 @@ For this reason, it is recommended that you install the [ESLint extension](https
 
 ## 🏡 Architecture
 
-In accordance with the principles of [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) the codebase is broadly split into four domains, each coinciding with a folder in the `/src` directory:
+In accordance with the principles of [Separation of Concerns](https://en.wikipedia.org/wiki/Separation_of_concerns) the codebase is broadly split into four [abstraction layers](https://en.wikipedia.org/wiki/Abstraction_layer), each coinciding with a folder in the `/src` directory:
 
 - Presentation: `src/components`
 - Containers: `src/containers`
 - Data: `src/data`
 - Services: `src/services`
 
-While, not a traditional [Model-view-viewmodel (MVVM)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) architecture, it is broadly inspired by the MVVM approach. The key consideration is that the presentation components are not allowed to talk directly to external data sources. This decoupling means that various parts of the codebase can be debugged and testing in isolation. 
+While, not a traditional [Model-view-viewmodel (MVVM)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) architecture, it is broadly inspired by the MVVM approach. The key consideration is that each abstraction layer are is only allowed to talk to its direct neighbor/s. This decoupling means that various parts of the codebase can be debugged and testing in isolation. 
 
 This relationship is primarily expressed by means of the folders located in the `src` directory as follows:
 
@@ -138,15 +160,15 @@ _Note that the first two folders ("presentation" and "containers") are based on 
 
 #### Presentation
 
-React components that are exclusively responsible for rendering HTML based on a specific state internal state or provided props. These components should be deterministic insofar that given the same props they should always behave in the same way.
+React components that are exclusively responsible for rendering HTML based on a specific state internal state or provided props. These components should be deterministic insofar that given the same props they should always behave in the same way. Note that these components are not meant to be "dumb" or stateless, but instead are only allowed to access their internal state and props.
 
 #### Containers
 
-These are React components that manage the relationship between the internal store `Data` and the presentational components. Note that these are (similar to `Presentation`) allowed to render HTML, however it is recommended that as far as possible as much rendering as possible be pushed to `presentation` components.
+These are React components that manage the relationship between the global store and presentational components. Note that a lot of cases these presentational components can be built directly into the container itself, but in some cases they will pull re-usable presentational components from the `presentation` folder.
 
 #### Data
 
-The data folder is responsible for internal modelling the core data shown to users by means of components. Due to limited scope of this project all global app state is exclusively located in a single [Zustand](https://zustand.surge.sh/) store (`src/data/store.js`). This store is intentionally decoupled from the actual React hooks that act on it. The latter ensure that reactivity and re-rendering can more easily be controlled.
+The data folder is responsible for modelling the global data used within the app. Due to limited scope of this project all global app state is exclusively located in a single [Zustand](https://zustand.surge.sh/) store (`src/data/store.js`). This store is intentionally decoupled from the actual React hooks that act on it. The latter ensure that reactivity and re-rendering can more easily be controlled, and that a more robust tool such as [Redux Toolkit](https://redux-toolkit.js.org/) can be introduced easily should the complexity of the app grow significantly.
 
 #### Services
 
@@ -156,7 +178,7 @@ A very basic abstraction over the React Context API that is used to manage [Depe
 ### Overview
 
 
-Below is a visualization of this relationship
+Below is a visualization of this relationship, indicating the direct neighbors of each abstraction layer.
 
 ```mermaid
 flowchart LR
@@ -245,7 +267,6 @@ Most technologies in the container layer are concerned with connecting the persi
 - [Zustand](https://zustand.surge.sh/) lies at the core of the viewmodel concern layer. It is used to manage all global data within the app in a more idiomatic and performant manner than the built-in React Context API.
 - [Zod Dev](https://www.npmjs.com/package/zod-dev) is an extension that is used on top of [Zod](https://zod.dev/) to get the same type-safety in the Viewmodel as is provided when interfacing with the actual model, without the performance overhead.
 - [Fuse.js](https://fusejs.io/) is used to provide fuzzy search behaviour when filtering and sorting data in the viewmodel. 
-
 
 
 ## User Stories
